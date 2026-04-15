@@ -7,5 +7,5 @@
 
 class IReader{
 public:
-    virtual std::string getData(std::string_view path) = 0;
+    virtual std::string getData() = 0;
 };

@@ -2,10 +2,12 @@
 #include <filesystem>
 #include <fstream>
 
-FileReader::FileReader() {}
+FileReader::FileReader(std::string_view path_) : path(path_) {}
 
-std::string FileReader::getData(std::string_view path){
-    if (!std::filesystem::exists(std::filesystem::path(path))) return "";
+std::string FileReader::getData(){
+    if (!std::filesystem::exists(std::filesystem::path(path))){
+        throw std::runtime_error("File not found: " + std::string(path));
+    }
 
     std::ifstream file(std::filesystem::path(path), std::ios::binary | std::ios::ate);
 
