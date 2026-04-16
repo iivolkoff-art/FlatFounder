@@ -1,6 +1,3 @@
-#ifndef ISITES_H
-#define ISITES_H
-#endif // ISITES_H
 #pragma once
 
 

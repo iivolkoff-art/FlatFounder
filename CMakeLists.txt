@@ -19,6 +19,10 @@ add_executable(FlatFounder main.cpp
     classes/Converters/IConverter.h
     classes/Converters/FlatFiltersConverter.h classes/Converters/FlatFiltersConverter.cpp
     classes/Converters/SettingsStructConverter.h classes/Converters/SettingsStructConverter.cpp
+    classes/Presentaters/IPresentator.h
+    classes/Presentaters/CMDPresentater.h classes/Presentaters/CMDPresentater.cpp
+    Structs/Results.h
+    Fabrics/FlatFounderFabric.h Fabrics/FlatFounderFabric.cpp
     )
 
 include(GNUInstallDirs)

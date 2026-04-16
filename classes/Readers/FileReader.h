@@ -1,6 +1,3 @@
-#ifndef FILEREADER_H
-#define FILEREADER_H
-
 #pragma once
 
 #include "Readers/IReader.h"
@@ -14,4 +11,4 @@ public:
     std::string getData() override;
 };
 
-#endif // FILEREADER_H
+

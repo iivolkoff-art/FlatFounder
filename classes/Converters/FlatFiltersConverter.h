@@ -1,5 +1,3 @@
-#ifndef FLATFILTERSCONVERTER_H
-#define FLATFILTERSCONVERTER_H
 #include "Converters/IConverter.h"
 #include <FlatFilters.h>
 #include <string>
@@ -13,4 +11,3 @@ public:
     FlatFilters convert(const std::string& input) override;
 };
 
-#endif // FLATFILTERSCONVERTER_H

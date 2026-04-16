@@ -1,13 +1,18 @@
 #include "FlatFounder.h"
 #include <iostream>
+#include <Results.h>
 
 FlatFounder::FlatFounder(std::unique_ptr<IReader> softSettings_, std::unique_ptr<IReader> flatFilters_, std::vector<std::unique_ptr<ISites>> sites_,
-                                std::unique_ptr<IConverter<FlatFilters, std::string>> flatFilterConverter_, std::unique_ptr<IConverter<SettingsStruct, std::string>> settingsStructConverter_) :
-                                    softSettings(std::move(softSettings_)),
-                                    flatFilters(std::move(flatFilters_)),
-                                    sites(std::move(sites_)),
-                                    flatFilterConverter(std::move(flatFilterConverter_)),
-                                    settingsStructConverter(std::move(settingsStructConverter_)){}
+                                std::unique_ptr<IConverter<FlatFilters, std::string>> flatFilterConverter_, std::unique_ptr<IConverter<SettingsStruct, std::string>> settingsStructConverter_,
+                                    std::vector<std::unique_ptr<IPresentater>> presentaters_) :
+
+                                        softSettings(std::move(softSettings_)),
+                                        flatFilters(std::move(flatFilters_)),
+                                        sites(std::move(sites_)),
+                                        flatFilterConverter(std::move(flatFilterConverter_)),
+                                        settingsStructConverter(std::move(settingsStructConverter_)),
+                                        presentaters(std::move(presentaters_)){}
+
 
 void FlatFounder::initialization(){
     isInit = true;
@@ -21,12 +26,21 @@ void FlatFounder::start(){
     std::cout << softSettings->getData() << std::endl;
     std::cout << flatFilters->getData() << std::endl;
 
-    FlatFilters flatFilt = flatFilterConverter->convert(flatFilters->getData());
-    SettingsStruct softSet = settingsStructConverter->convert(softSettings->getData());
+    filters = flatFilterConverter->convert(flatFilters->getData());
+    settings = settingsStructConverter->convert(softSettings->getData());
 
 
-    std::cout << flatFilt.price << std::endl;
-    std::cout << flatFilt.size << std::endl;
-    std::cout << softSet.addr << std::endl;
-    std::cout << softSet.token << std::endl;
+
+    std::cout << filters.price << std::endl;
+    std::cout << filters.size << std::endl;
+    std::cout << settings.addr << std::endl;
+    std::cout << settings.token << std::endl;
+
+
+
+    Result res;
+    std::vector<Result> res1{res};
+    for(const auto& x: presentaters){
+        x->present(res1);
+    }
 }

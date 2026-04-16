@@ -20,7 +20,11 @@ FlatFilters FlatFiltersConverter::convert(const std::string& input) {
             if (filterObj.contains("size")) {
                 filters.size = filterObj["size"].toInt();
             }
+        }else{
+            throw std::runtime_error("Error: Not Found Key \"FlatFilters\" in \n" + input);
         }
+    }else{
+        throw std::runtime_error("Error: Incorrect JSON struct of \n" + input);
     }
 
     return filters;

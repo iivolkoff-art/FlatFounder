@@ -1,5 +1,5 @@
-#ifndef MAINLOGGER_H
-#define MAINLOGGER_H
+#pragma once
+
 
 class MainLogger
 {
@@ -9,4 +9,3 @@ public:
 
 };
 
-#endif // MAINLOGGER_H

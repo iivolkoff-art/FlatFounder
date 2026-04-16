@@ -1,23 +1,23 @@
 #include "FlatFounder.h"
-#include "Readers/FileReader.h"
-#include "Sites/ISites.h"
-#include "Converters/FlatFiltersConverter.h"
-#include "Converters/SettingsStructConverter.h"
-
-
-using namespace std;
+#include "Fabrics/FlatFounderFabric.h"
+#include <chrono>
+#include <iostream>
 
 int main()
 {
-    FlatFounder flatFounder(
-                            std::make_unique<FileReader>("D:/Projects/FlatFounder/Settings/SoftSettings.json"),
-                            std::make_unique<FileReader>("D:/Projects/FlatFounder/Settings/FlatFilters.json"),
-                            std::vector<std::unique_ptr<ISites>>(),
-                            std::make_unique<FlatFiltersConverter>(),
-                            std::make_unique<SettingsStructConverter>()
-                            );
+    auto start = std::chrono::high_resolution_clock::now();
 
 
-    flatFounder.initialization();
-    flatFounder.start();
+    std::unique_ptr<FlatFounder> flatFounder = nullptr;
+    {
+        FlatFounderFabric flatFounderFabric;
+        flatFounder = flatFounderFabric.createDefault();
+    }
+    flatFounder->initialization();
+    flatFounder->start();
+
+
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double, std::milli> elapsed = end - start;
+    std::cout << "Init took: " << elapsed.count() << " ms" << std::endl;
 }

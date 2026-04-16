@@ -7,6 +7,6 @@
 #include <string>
 
 struct SettingsStruct{
-    std::string token;
-    std::string addr;
+    std::string token = "";
+    std::string addr = "";
 };

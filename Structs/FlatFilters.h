@@ -4,6 +4,6 @@
 #endif // FLATFILTERS_H
 
 struct FlatFilters{
-    int price;
-    int size;
+    int price = -1;
+    int size = -1;
 };

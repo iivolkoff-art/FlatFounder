@@ -20,7 +20,11 @@ SettingsStruct SettingsStructConverter::convert(const std::string& input){
             if (filterObj.contains("addr")) {
                 settings.addr = filterObj["addr"].toString().toStdString();
             }
+        }else{
+            throw std::runtime_error("Error: Not Found Key \"SoftSettings\" in \n" + input);
         }
+    }else{
+        throw std::runtime_error("Error: Incorrect JSON struct in \n" + input);
     }
 
     return settings;
