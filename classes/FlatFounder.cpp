@@ -36,6 +36,10 @@ void FlatFounder::start(){
     std::cout << settings.addr << std::endl;
     std::cout << settings.token << std::endl;
 
+    for(const auto& x: sites){
+        x->getInfo(filters);
+    }
+
 
 
     Result res;

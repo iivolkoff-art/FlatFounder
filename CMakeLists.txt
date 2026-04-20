@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.16)
 
 project(FlatFounder LANGUAGES CXX)
 
-find_package(Qt6 REQUIRED COMPONENTS Core)
+find_package(Qt6 REQUIRED COMPONENTS Core Network)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -23,6 +23,14 @@ add_executable(FlatFounder main.cpp
     classes/Presentaters/CMDPresentater.h classes/Presentaters/CMDPresentater.cpp
     Structs/Results.h
     Fabrics/FlatFounderFabric.h Fabrics/FlatFounderFabric.cpp
+    classes/Sites/KufarSite.h classes/Sites/KufarSite.cpp
+    classes/Sites/RequestGeneraters/IRequestGenerator.h
+    classes/Sites/RequestGeneraters/KufarRequestGenerator.h classes/Sites/RequestGeneraters/KufarRequestGenerator.cpp
+    classes/Sites/RequestSenders/IRequestSender.h
+    classes/Sites/RequestReceivers/IRequestReceiver.h
+    classes/Sites/RequestSenders/DefaultRequestSender.h classes/Sites/RequestSenders/DefaultRequestSender.cpp
+    classes/Sites/RequestReceivers/DefaultRequestReceiver.h classes/Sites/RequestReceivers/DefaultRequestReceiver.cpp
+
     )
 
 include(GNUInstallDirs)
@@ -37,4 +45,6 @@ target_include_directories(FlatFounder PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/Structs
 )
 
-target_link_libraries(FlatFounder PRIVATE Qt6::Core)
+target_link_libraries(FlatFounder PRIVATE
+    Qt6::Core
+    Qt6::Network)
