@@ -29,6 +29,7 @@ add_executable(FlatFounder main.cpp
     classes/Sites/HttpsClients/IHttpsClient.h
 
     classes/Sites/HttpsClients/DefaultHttpsClient.h classes/Sites/HttpsClients/DefaultHttpsClient.cpp
+    classes/Converters/ResultConverter.h classes/Converters/ResultConverter.cpp
 
 
     )

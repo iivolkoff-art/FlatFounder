@@ -5,7 +5,7 @@
 
 class IPresentater{
 public:
-    virtual void present(const std::vector<Result>& result) = 0;
+    virtual void present(const std::vector<Result>& results) = 0;
 };
 
 

@@ -8,6 +8,8 @@
 
 #include "Converters/FlatFiltersConverter.h"
 #include "Converters/SettingsStructConverter.h"
+#include "Converters/ResultConverter.h"
+
 #include "Presentaters/IPresentator.h"
 #include "Presentaters/CMDPresentater.h"
 
@@ -28,5 +30,6 @@ std::unique_ptr<FlatFounder> FlatFounderFabric::createDefault(){
                                         std::move(sites),
                                         std::make_unique<FlatFiltersConverter>(),
                                         std::make_unique<SettingsStructConverter>(),
+                                        std::make_unique<ResultConverter>(),
                                         std::move(pres));
 }

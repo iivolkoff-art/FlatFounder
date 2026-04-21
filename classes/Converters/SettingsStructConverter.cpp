@@ -7,6 +7,7 @@ SettingsStructConverter::SettingsStructConverter() {}
 
 
 SettingsStruct SettingsStructConverter::convert(const std::string& input){
+    SettingsStruct settings;
     QByteArray jsonData = QByteArray::fromStdString(input);
     QJsonDocument doc = QJsonDocument::fromJson(jsonData);
 

@@ -4,8 +4,6 @@
 
 class SettingsStructConverter : public IConverter<SettingsStruct, std::string>
 {
-private:
-    SettingsStruct settings;
 public:
     SettingsStructConverter();
     SettingsStruct convert(const std::string& input) override;

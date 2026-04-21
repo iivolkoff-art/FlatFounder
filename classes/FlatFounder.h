@@ -7,8 +7,9 @@
 #include "Sites/ISites.h"
 #include "Presentaters/IPresentator.h"
 #include <Converters/IConverter.h>
-#include <FlatFilters.h>
-#include <SettingsStruct.h>
+#include "FlatFilters.h"
+#include "Results.h"
+#include "SettingsStruct.h"
 
 
 class FlatFounder
@@ -20,16 +21,17 @@ private:
     std::vector<std::unique_ptr<IPresentater>> presentaters;
     std::unique_ptr<IConverter<FlatFilters, std::string>> flatFilterConverter;
     std::unique_ptr<IConverter<SettingsStruct, std::string>> settingsStructConverter;
+    std::unique_ptr<IConverter<std::vector<Result>, std::string>> resultConverter;
     SettingsStruct settings;
     FlatFilters filters;
+    Result result;
 
     bool isInit;
 
 public:
     FlatFounder(std::unique_ptr<IReader> softSettings_, std::unique_ptr<IReader> flatFilters_, std::vector<std::unique_ptr<ISites>> sites_,
                 std::unique_ptr<IConverter<FlatFilters, std::string>> flatFilterConverter_, std::unique_ptr<IConverter<SettingsStruct, std::string>> settingsStructConverter_,
-                std::vector<std::unique_ptr<IPresentater>> presentaters_);
-    void initialization();
+                std::unique_ptr<IConverter<std::vector<Result>, std::string>> resultConverter_, std::vector<std::unique_ptr<IPresentater>> presentaters_);
     void start();
 
 };
