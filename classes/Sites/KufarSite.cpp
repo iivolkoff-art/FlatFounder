@@ -1,9 +1,11 @@
 #include "KufarSite.h"
 
-KufarSite::KufarSite(std::unique_ptr<IRequestGenerator> generator_, std::unique_ptr<IRequstSender> sender_, std::unique_ptr<IRequestReceiver> receiver_) {}
+KufarSite::KufarSite(std::unique_ptr<IRequestGenerator> generator_, std::unique_ptr<IHttpsClient> client_) : generator(std::move(generator_)), client(std::move(client_)) {}
 
-std::string KufarSite::getInfo(const FlatFilters& filter_){return "";}
+std::string KufarSite::getInfo(const FlatFilters& filter){
+    return client->getInfo(generateRequest(filter));
+}
 
-QUrl KufarSite::generateRequest(){}
-void KufarSite::sendRequest() {}
-std::string KufarSite::receiveRequest(){}
+QUrl KufarSite::generateRequest(const FlatFilters& filter){
+    return generator->generate(filter);
+}

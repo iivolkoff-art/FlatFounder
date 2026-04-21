@@ -4,8 +4,7 @@
 
 #include "Sites/KufarSite.h"
 #include "Sites/RequestGeneraters/KufarRequestGenerator.h"
-#include "Sites/RequestSenders/DefaultRequestSender.h"
-#include "Sites/RequestReceivers/DefaultRequestReceiver.h"
+#include "Sites/HttpsClients/DefaultHttpsClient.h"
 
 #include "Converters/FlatFiltersConverter.h"
 #include "Converters/SettingsStructConverter.h"
@@ -20,7 +19,7 @@ std::unique_ptr<FlatFounder> FlatFounderFabric::createDefault(){
     std::vector<std::unique_ptr<IPresentater>> pres;
     pres.push_back(std::make_unique<CMDPresentater>());
 
-    std::unique_ptr<ISites> kufarSites = std::make_unique<KufarSite>(std::make_unique<KufarRequestGenerator>(), std::make_unique<DefaultRequestSender>(), std::make_unique<DefaultRequestReceiver>());
+    std::unique_ptr<ISites> kufarSites = std::make_unique<KufarSite>(std::make_unique<KufarRequestGenerator>(), std::make_unique<DefaultHttpsClient>());
     std::vector<std::unique_ptr<ISites>> sites;
     sites.push_back(std::move(kufarSites));
 

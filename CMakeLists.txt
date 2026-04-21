@@ -26,10 +26,10 @@ add_executable(FlatFounder main.cpp
     classes/Sites/KufarSite.h classes/Sites/KufarSite.cpp
     classes/Sites/RequestGeneraters/IRequestGenerator.h
     classes/Sites/RequestGeneraters/KufarRequestGenerator.h classes/Sites/RequestGeneraters/KufarRequestGenerator.cpp
-    classes/Sites/RequestSenders/IRequestSender.h
-    classes/Sites/RequestReceivers/IRequestReceiver.h
-    classes/Sites/RequestSenders/DefaultRequestSender.h classes/Sites/RequestSenders/DefaultRequestSender.cpp
-    classes/Sites/RequestReceivers/DefaultRequestReceiver.h classes/Sites/RequestReceivers/DefaultRequestReceiver.cpp
+    classes/Sites/HttpsClients/IHttpsClient.h
+
+    classes/Sites/HttpsClients/DefaultHttpsClient.h classes/Sites/HttpsClients/DefaultHttpsClient.cpp
+
 
     )
 

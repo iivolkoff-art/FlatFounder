@@ -2,9 +2,11 @@
 #include "Fabrics/FlatFounderFabric.h"
 #include <chrono>
 #include <iostream>
+#include <QCoreApplication>
 
-int main()
+int main(int argc, char *argv[])
 {
+    QCoreApplication a(argc, argv);
     auto start = std::chrono::high_resolution_clock::now();
 
 
