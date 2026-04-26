@@ -1,5 +1,4 @@
 #include "FlatFounder.h"
-#include <iostream>
 
 FlatFounder::FlatFounder(std::unique_ptr<IReader> softSettings_, std::unique_ptr<IReader> flatFilters_, std::vector<std::unique_ptr<ISites>> sites_,
                                 std::unique_ptr<IConverter<FlatFilters, std::string>> flatFilterConverter_, std::unique_ptr<IConverter<SettingsStruct, std::string>> settingsStructConverter_,
@@ -14,15 +13,7 @@ FlatFounder::FlatFounder(std::unique_ptr<IReader> softSettings_, std::unique_ptr
                                         presentaters(std::move(presentaters_)){}
 
 
-void FlatFounder::initialization(){
-    isInit = true;
-};
-
-
 void FlatFounder::start(){
-    if(!isInit){
-        return;
-    }
 
     filters = flatFilterConverter->convert(flatFilters->getData());
     settings = settingsStructConverter->convert(softSettings->getData());

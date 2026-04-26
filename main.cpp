@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
         FlatFounderFabric flatFounderFabric;
         flatFounder = flatFounderFabric.createDefault();
     }
-    flatFounder->initialization();
+    //flatFounder->initialization();
     flatFounder->start();
 
 

@@ -4,5 +4,5 @@
 
 class IRequestGenerator{
 public:
-    virtual QUrl generate(const FlatFilters& filter_) = 0;
+    virtual QUrl generate(const FlatFilters& filter) = 0;
 };
