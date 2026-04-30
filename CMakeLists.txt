@@ -6,6 +6,7 @@ find_package(Qt6 REQUIRED COMPONENTS Core Network)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_AUTOMOC ON)
 
 add_executable(FlatFounder main.cpp
     classes/Readers/IReader.h
@@ -30,6 +31,7 @@ add_executable(FlatFounder main.cpp
 
     classes/Sites/HttpsClients/DefaultHttpsClient.h classes/Sites/HttpsClients/DefaultHttpsClient.cpp
     classes/Converters/ResultConverter.h classes/Converters/ResultConverter.cpp
+    classes/Presentaters/TGPresentators.h classes/Presentaters/TGPresentators.cpp
 
 
     )

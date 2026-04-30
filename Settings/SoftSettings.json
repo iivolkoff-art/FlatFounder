@@ -1,6 +1,7 @@
 {
 	"SoftSettings":{
-		"token": "123@#$%",
-		"addr": "iiv@03"
+		"ip": "127.0.0.1",
+		"port": 2003,
+		"peripdTimeMin": 5
 	}
 }

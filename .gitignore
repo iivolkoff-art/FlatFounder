@@ -1,2 +1,6 @@
-.qtcreator
-build
+.qtcreator/
+build*/
+*.bd
+.idea
+.venv
+__pycache__/

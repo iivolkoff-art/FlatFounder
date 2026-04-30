@@ -13,17 +13,21 @@ SettingsStruct SettingsStructConverter::convert(const std::string& input){
 
     if (doc.isObject()) {
         QJsonObject root = doc.object();
-        if (root.contains("SoftSettings") && root["SoftSettings"].isObject()) {
+
             QJsonObject filterObj = root["SoftSettings"].toObject();
-            if (filterObj.contains("token")) {
-                settings.token = filterObj["token"].toString().toStdString();
+
+            QStringList keys = {
+                "ip", "port", "peripdTimeMin"
+            };
+            for (const QString& key : keys) {
+                if (!filterObj.contains(key)) {
+                    throw std::runtime_error("Error: Missing JSON parameter: " + key.toStdString());
+                }
             }
-            if (filterObj.contains("addr")) {
-                settings.addr = filterObj["addr"].toString().toStdString();
-            }
-        }else{
-            throw std::runtime_error("Error: Not Found Key \"SoftSettings\" in \n" + input);
-        }
+
+            settings.ip = filterObj["ip"].toString().toStdString();
+            settings.port = filterObj["port"].toInt();
+            settings.periodTimeMin = filterObj["peripdTimeMin"].toInt();
     }else{
         throw std::runtime_error("Error: Incorrect JSON struct in \n" + input);
     }

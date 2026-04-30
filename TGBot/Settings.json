@@ -1,0 +1,9 @@
+{
+    "TGBotSettings":
+    {
+        "TGToken": "TOKEN!!!!",
+        "BDName": "test.bd",
+        "IP": "127.0.0.1",
+        "Port": 2003
+    }
+}

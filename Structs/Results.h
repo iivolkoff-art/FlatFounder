@@ -6,4 +6,5 @@
 
 struct Result{
     std::string link = "";
+    std::string date = "";
 };

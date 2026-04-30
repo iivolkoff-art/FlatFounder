@@ -4,10 +4,10 @@
 
 struct FlatFilters{
     std::vector<int> roomsCount;
-    std::string transactionType; // "let" - rent
+    std::string transactionType;
     std::string currency;
-    int houseType; // 1010 - flat
-    int rgn; // 7 - Minsk
+    int houseType;
+    int rgn;
     int minPrice;
     int maxPrice;
     int minFlatSize;
@@ -15,6 +15,6 @@ struct FlatFilters{
     int adsNumber;
     bool isNearMetro;
     bool isPhoto;
-    bool isOwner; // true - owner, false - agent
+    bool isOwner;
 
 };

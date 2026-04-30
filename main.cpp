@@ -15,9 +15,7 @@ int main(int argc, char *argv[])
         FlatFounderFabric flatFounderFabric;
         flatFounder = flatFounderFabric.createDefault();
     }
-    //flatFounder->initialization();
     flatFounder->start();
-
 
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double, std::milli> elapsed = end - start;

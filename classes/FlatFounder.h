@@ -15,17 +15,17 @@
 class FlatFounder
 {
 private:
-    std::unique_ptr<IReader> softSettings;
-    std::unique_ptr<IReader> flatFilters;
+    FlatFilters filters;
+    SettingsStruct settings;
+    Result result;
     std::vector<std::unique_ptr<ISites>> sites;
     std::vector<std::unique_ptr<IPresentater>> presentaters;
+    std::string dateLastMessageFromSites;
+    std::unique_ptr<IReader> softSettings;
+    std::unique_ptr<IReader> flatFilters;
     std::unique_ptr<IConverter<FlatFilters, std::string>> flatFilterConverter;
     std::unique_ptr<IConverter<SettingsStruct, std::string>> settingsStructConverter;
     std::unique_ptr<IConverter<std::vector<Result>, std::string>> resultConverter;
-    SettingsStruct settings;
-    FlatFilters filters;
-    Result result;
-
 public:
     FlatFounder(std::unique_ptr<IReader> softSettings_, std::unique_ptr<IReader> flatFilters_, std::vector<std::unique_ptr<ISites>> sites_,
                 std::unique_ptr<IConverter<FlatFilters, std::string>> flatFilterConverter_, std::unique_ptr<IConverter<SettingsStruct, std::string>> settingsStructConverter_,
