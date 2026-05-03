@@ -5,9 +5,9 @@
 class FileReader : public IReader
 {
 private:
-    std::string_view path;
+    std::string path;
 public:
-    FileReader(std::string_view path_);
+    FileReader(std::string path_);
     std::string getData() override;
 };
 

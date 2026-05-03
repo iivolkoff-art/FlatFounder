@@ -2,11 +2,28 @@ cmake_minimum_required(VERSION 3.16)
 
 project(FlatFounder LANGUAGES CXX)
 
-find_package(Qt6 REQUIRED COMPONENTS Core Network)
+if(WIN32)
+    set(Boost_NO_SYSTEM_PATHS ON)
+    set(BOOST_ROOT "C:/msys64/ucrt64")
+    set(Boost_USE_STATIC_LIBS OFF)
+    add_definitions(-D_UCRT)
+endif()
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_AUTOMOC ON)
+set(CMAKE_CXX_EXTENSIONS ON)
+
+if(MINGW)
+    add_definitions(-D_UCRT)
+endif()
+
+if(MINGW)
+    list(APPEND CMAKE_PREFIX_PATH "C:/msys64/ucrt64")
+endif()
+
+
+find_package(Boost REQUIRED COMPONENTS program_options)
+find_package(Qt6 REQUIRED COMPONENTS Core Network)
 
 add_executable(FlatFounder main.cpp
     classes/Readers/IReader.h
@@ -32,6 +49,7 @@ add_executable(FlatFounder main.cpp
     classes/Sites/HttpsClients/DefaultHttpsClient.h classes/Sites/HttpsClients/DefaultHttpsClient.cpp
     classes/Converters/ResultConverter.h classes/Converters/ResultConverter.cpp
     classes/Presentaters/TGPresentators.h classes/Presentaters/TGPresentators.cpp
+    classes/Settings/SettingsSingltons.h classes/Settings/SettingsSingltons.cpp
 
 
     )
@@ -50,4 +68,11 @@ target_include_directories(FlatFounder PRIVATE
 
 target_link_libraries(FlatFounder PRIVATE
     Qt6::Core
-    Qt6::Network)
+    Qt6::Network
+
+    Boost::program_options
+)
+
+if(WIN32)
+    target_link_libraries(FlatFounder PRIVATE -static-libstdc++ -static-libgcc)
+endif()

@@ -6,8 +6,11 @@
 FlatFiltersConverter::FlatFiltersConverter() {}
 
 
+
 FlatFilters FlatFiltersConverter::convert(const std::string& input) {
+
     FlatFilters filters;
+
     QByteArray jsonData = QByteArray::fromStdString(input);
     QJsonDocument doc = QJsonDocument::fromJson(jsonData);
 

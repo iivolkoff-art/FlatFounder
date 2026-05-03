@@ -3,9 +3,9 @@
 #include <vector>
 
 struct FlatFilters{
-    std::vector<int> roomsCount;
     std::string transactionType;
     std::string currency;
+    std::vector<int> roomsCount;
     int houseType;
     int rgn;
     int minPrice;

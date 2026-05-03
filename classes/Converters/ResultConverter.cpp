@@ -1,6 +1,9 @@
 #include "ResultConverter.h"
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QJsonArray>
+#include <iostream>
+
 
 
 ResultConverter::ResultConverter() {}
@@ -8,26 +11,30 @@ ResultConverter::ResultConverter() {}
 std::vector<Result> ResultConverter::convert(const std::string& input) {
     std::vector<Result> vecRes;
 
-    static QRegularExpression re("\"ad_link\"\\s*:\\s*\"([^\"]+)\"");
-    static QRegularExpression timeRe("\"list_time\"\\s*:\\s*\"([^\"]+)\"");
+    QByteArray jsonData = QByteArray::fromRawData(input.c_str(), static_cast<int>(input.size()));
 
-    QString qInput = QString::fromStdString(input);
-    QRegularExpressionMatchIterator i = re.globalMatch(qInput);
+    QJsonParseError error;
+    QJsonDocument doc = QJsonDocument::fromJson(jsonData, &error);
 
-    while (i.hasNext()) {
-        Result res;
-        QRegularExpressionMatch match = i.next();
-
-        QString link = match.captured(1);
-        res.link = link.replace("\\/", "/").toStdString();
-
-        QRegularExpressionMatch timeMatch = timeRe.match(qInput, match.capturedEnd());
-
-        if (timeMatch.hasMatch()) {
-            res.date = timeMatch.captured(1).toStdString();
-        }
-
-        vecRes.push_back(std::move(res));
+    if (error.error != QJsonParseError::NoError) {
+        std::cout << "JSON Error:" << error.errorString().toStdString() << std::endl;
+        return vecRes;
     }
+
+    QJsonObject root = doc.object();
+    QJsonArray adsArray = root["ads"].toArray();
+
+    for (const QJsonValue& value : adsArray) {
+        QJsonObject ad = value.toObject();
+        Result res;
+
+        res.link = ad["ad_link"].toString().toStdString();
+        res.date = ad["list_time"].toString().toStdString();
+
+        if (!res.link.empty()) {
+            vecRes.push_back(std::move(res));
+        }
+    }
+
     return vecRes;
 }

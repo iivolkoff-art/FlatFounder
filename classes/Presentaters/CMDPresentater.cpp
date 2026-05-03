@@ -15,4 +15,5 @@ void CMDPresentater::present(const std::vector<Result>& results){
         std::cout << "   Link: " << res.link << std::endl;
         std::cout << "----------------------------------------" << std::endl;
     }
+    std::cout <<"\n\n\n\n" << std::endl;
 }

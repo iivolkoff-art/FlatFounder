@@ -2,7 +2,7 @@
 #include <filesystem>
 #include <fstream>
 
-FileReader::FileReader(std::string_view path_) : path(path_) {}
+FileReader::FileReader(std::string path_) : path(std::move(path_)) {}
 
 std::string FileReader::getData(){
     if (!std::filesystem::exists(std::filesystem::path(path))){

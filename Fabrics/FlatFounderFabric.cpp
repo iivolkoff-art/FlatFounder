@@ -14,11 +14,13 @@
 #include "Presentaters/CMDPresentater.h"
 #include "Presentaters/TGPresentators.h"
 
+#include "Settings/SettingsSingltons.h"
+
 
 FlatFounderFabric::FlatFounderFabric() {}
 
 
-std::unique_ptr<FlatFounder> FlatFounderFabric::createDefault(){
+std::unique_ptr<FlatFounder> FlatFounderFabric::createDefault(std::string filtersPath){
     std::vector<std::unique_ptr<IPresentater>> pres;
     pres.push_back(std::make_unique<CMDPresentater>());
     pres.push_back(std::make_unique<TGPresentators>());
@@ -27,11 +29,18 @@ std::unique_ptr<FlatFounder> FlatFounderFabric::createDefault(){
     std::vector<std::unique_ptr<ISites>> sites;
     sites.push_back(std::move(kufarSites));
 
-    return std::make_unique<FlatFounder>(std::make_unique<FileReader>("D:/Projects/FlatFounder/Settings/SoftSettings.json"),
-                                        std::make_unique<FileReader>("D:/Projects/FlatFounder/Settings/FlatFilters.json"),
+    return std::make_unique<FlatFounder>(
+        std::make_unique<FileReader>(std::move(filtersPath)),
                                         std::move(sites),
                                         std::make_unique<FlatFiltersConverter>(),
-                                        std::make_unique<SettingsStructConverter>(),
                                         std::make_unique<ResultConverter>(),
                                         std::move(pres));
+}
+
+void FlatFounderFabric::createSettings(std::string settingsPath){
+    std::unique_ptr<IReader> settingsFileReader = std::make_unique<FileReader>(std::move(settingsPath));
+    std::unique_ptr<IConverter<SettingsStruct, std::string>> settingsConverter = std::make_unique<SettingsStructConverter>();
+
+    SettingsSingltons::instance().instance().setSettingsStruct(
+                                                std::move(settingsConverter->convert(settingsFileReader->getData())));
 }
