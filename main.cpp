@@ -1,12 +1,66 @@
-#include <iostream>
 #include "FlatFounder.h"
-#include "Readers/IReader.h"
-#include "Readers/FileReader.h"
+#include "Fabrics/FlatFounderFabric.h"
+#include <boost/program_options.hpp>
+#include <iostream>
 
-using namespace std;
+namespace po = boost::program_options;
 
-int main()
+int main(int argc, char *argv[])
 {
-    std::unique_ptr<IReader> reader = std::make_unique<FileReader>();
-    FlatFounder flatFounder(std::move(reader));
+    std::unique_ptr<FlatFounder> flatFounder = nullptr;
+
+
+    {
+        std::string settingsPath;
+        std::string filtersPath;
+        try {
+            po::options_description desc("Full params list");
+            desc.add_options()
+                ("help,h", "Show all flags")
+                ("version,v", "Version")
+                ("settings,s", po::value<std::string>(), "Settings file path")
+                ("filters,f", po::value<std::string>(), "Filters file path");
+
+            po::variables_map vm;
+            po::store(po::parse_command_line(argc, argv, desc), vm);
+            po::notify(vm);
+
+            if (vm.count("help")) {
+                std::cout << desc << "\n";
+                return 0;
+            }
+
+            if (vm.count("version")) {
+                std::cout << "0.8.1" << std::endl;
+                return 0;
+            }
+
+            if (vm.count("settings")) {
+                settingsPath = std::move(vm["settings"].as<std::string>());
+            } else {
+                settingsPath = "./SoftSettings.json";
+            }
+
+            if (vm.count("filters")) {
+                filtersPath = std::move(vm["filters"].as<std::string>());
+            } else {
+                filtersPath = "./FlatFilters.json";
+            }
+
+
+        } catch (const std::exception& e) {
+            std::cerr << "Error: " << e.what() << "\n";
+            return 1;
+        }
+
+
+        {
+            FlatFounderFabric flatFounderFabric;
+            flatFounderFabric.createSettings(std::move(settingsPath));
+            flatFounder = flatFounderFabric.createDefault(std::move(filtersPath));
+        }
+    }
+
+
+    flatFounder->start();
 }

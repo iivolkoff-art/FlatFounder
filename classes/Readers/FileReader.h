@@ -1,15 +1,14 @@
-#ifndef FILEREADER_H
-#define FILEREADER_H
-
 #pragma once
 
 #include "Readers/IReader.h"
 
 class FileReader : public IReader
 {
+private:
+    std::string path;
 public:
-    FileReader();
-    std::string getData(std::string_view path) override;
+    FileReader(std::string path_);
+    std::string getData() override;
 };
 
-#endif // FILEREADER_H
+

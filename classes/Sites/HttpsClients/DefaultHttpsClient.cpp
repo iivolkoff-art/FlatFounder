@@ -1,0 +1,42 @@
+#include "DefaultHttpsClient.h"
+#include <QEventLoop>
+#include <QNetworkReply>
+#include <QCoreApplication>
+
+DefaultHttpsClient::DefaultHttpsClient() {
+    if (!QCoreApplication::instance()) {
+        static int argc = 1;
+        static char* argv[] = {(char*)"qt_network_client", nullptr};
+        static QCoreApplication a(argc, argv);
+    }
+
+    manager = std::make_unique<QNetworkAccessManager>();
+}
+
+
+std::string DefaultHttpsClient::getInfo(const QUrl& url) {
+
+
+    QNetworkRequest request(url);
+    request.setRawHeader("Accept", "application/json");
+    request.setHeader(QNetworkRequest::UserAgentHeader,
+                      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36");
+
+    QNetworkReply* reply = manager->get(request);
+    if (!reply) return "Error: Could not create QNetworkReply";
+
+    QEventLoop loop;
+    QObject::connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+    loop.exec();
+
+    std::string result;
+    if (reply->error() == QNetworkReply::NoError) {
+        QByteArray response = reply->readAll();
+        result = std::string(response.constData(), static_cast<size_t>(response.length()));
+    } else {
+        result = "Error: " + reply->errorString().toStdString();
+    }
+
+    reply->deleteLater();
+    return result;
+}
