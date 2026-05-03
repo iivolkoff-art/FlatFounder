@@ -3,14 +3,13 @@
 #include <boost/program_options.hpp>
 #include <iostream>
 
-namespace po = boost::program_options;
-
 int main(int argc, char *argv[])
 {
     std::unique_ptr<FlatFounder> flatFounder = nullptr;
 
 
     {
+        namespace po = boost::program_options;
         std::string settingsPath;
         std::string filtersPath;
         try {
@@ -46,8 +45,6 @@ int main(int argc, char *argv[])
             } else {
                 filtersPath = "./FlatFilters.json";
             }
-
-
         } catch (const std::exception& e) {
             std::cerr << "Error: " << e.what() << "\n";
             return 1;
