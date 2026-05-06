@@ -8,6 +8,9 @@ FlatFiltersConverter::FlatFiltersConverter() {}
 
 
 FlatFilters FlatFiltersConverter::convert(const std::string& input) {
+    if(input.empty()){
+        throw("Error: No Filters data!");
+    }
 
     FlatFilters filters;
 

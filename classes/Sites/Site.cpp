@@ -6,6 +6,7 @@ Site::Site(std::unique_ptr<IRequestGenerator> generator_, std::shared_ptr<IHttps
 
 std::vector<Result> Site::getInfo(const FlatFilters& filter){
     std::vector<Result> allResults = converter->convert(client->getInfo(generateRequest(filter)));
+    if(allResults.empty()) return {};
 
     std::vector<Result> Results;
     std::string currentMaxDate = dateLastMessageFromSites;

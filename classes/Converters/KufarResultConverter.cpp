@@ -9,6 +9,8 @@
 KufarResultConverter::KufarResultConverter() {}
 
 std::vector<Result> KufarResultConverter::convert(const std::string& input) {
+    if(input.empty()) return {};
+
     std::vector<Result> vecRes;
 
     QByteArray jsonData = QByteArray::fromRawData(input.c_str(), static_cast<int>(input.size()));
@@ -30,6 +32,9 @@ std::vector<Result> KufarResultConverter::convert(const std::string& input) {
 
         res.link = ad["ad_link"].toString().toStdString();
         res.date = ad["list_time"].toString().toStdString();
+        if (!ad["images"].toArray()[0].toString().isEmpty()) {
+            res.image = ad["images"].toArray()[0].toObject()["path"].toString().toStdString();
+        }
 
         if (!res.link.empty()) {
             vecRes.push_back(std::move(res));

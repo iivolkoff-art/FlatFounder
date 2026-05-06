@@ -9,6 +9,9 @@
 OnlinerResultConverter::OnlinerResultConverter() {}
 
 std::vector<Result> OnlinerResultConverter::convert(const std::string& input) {
+    if(input.empty()) return {};
+
+
     std::vector<Result> vecRes;
 
     QByteArray jsonData = QByteArray::fromRawData(input.c_str(), static_cast<int>(input.size()));
@@ -30,6 +33,7 @@ std::vector<Result> OnlinerResultConverter::convert(const std::string& input) {
 
         res.link = ad["url"].toString().toStdString();
         res.date = ad["last_time_up"].toString().toStdString();
+        res.image = ad["photo"].toString().toStdString();
 
         if (!res.link.empty()) {
             vecRes.push_back(std::move(res));

@@ -12,8 +12,8 @@ int main(int argc, char *argv[])
         namespace po = boost::program_options;
         std::string settingsPath;
         std::string filtersPath;
+        po::options_description desc("Full params list");
         try {
-            po::options_description desc("Full params list");
             desc.add_options()
                 ("help,h", "Show all flags")
                 ("version,v", "Version")
@@ -47,6 +47,7 @@ int main(int argc, char *argv[])
             }
         } catch (const std::exception& e) {
             std::cerr << "Error: " << e.what() << "\n";
+            std::cout << desc << "\n";
             return 1;
         }
 

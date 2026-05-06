@@ -8,16 +8,11 @@
 #include "Presentaters/IPresentator.h"
 #include <Converters/IConverter.h>
 #include "FlatFilters.h"
-#include "Results.h"
-#include "SettingsStruct.h"
-
 
 class FlatFounder
 {
 private:
     FlatFilters filters;
-    Result result;
-    SettingsStruct settings;
     std::vector<std::unique_ptr<ISites>> sites;
     std::vector<std::unique_ptr<IPresentater>> presentaters;
     std::unique_ptr<IReader> flatFilters;
@@ -27,8 +22,6 @@ public:
                 std::unique_ptr<IConverter<FlatFilters, std::string>> flatFilterConverter_,
                 std::vector<std::unique_ptr<IPresentater>> presentaters_);
     void start();
-
-
 };
 
 

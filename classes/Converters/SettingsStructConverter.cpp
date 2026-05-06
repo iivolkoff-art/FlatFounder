@@ -7,6 +7,10 @@ SettingsStructConverter::SettingsStructConverter() {}
 
 
 SettingsStruct SettingsStructConverter::convert(const std::string& input){
+    if(input.empty()){
+        throw("Error: No Settings data!");
+    }
+
     SettingsStruct settings;
     QByteArray jsonData = QByteArray::fromStdString(input);
     QJsonDocument doc = QJsonDocument::fromJson(jsonData);

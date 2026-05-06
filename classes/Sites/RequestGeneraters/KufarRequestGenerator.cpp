@@ -35,6 +35,8 @@ QUrl KufarRequestGenerator::generate(const FlatFilters& filter)
     }
     url.setQuery(query.query(QUrl::FullyEncoded));
 
+
     url.setQuery(query);
+    qDebug() << url;
     return url;
 }
