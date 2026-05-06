@@ -41,15 +41,18 @@ add_executable(FlatFounder main.cpp
     classes/Presentaters/CMDPresentater.h classes/Presentaters/CMDPresentater.cpp
     Structs/Results.h
     Fabrics/FlatFounderFabric.h Fabrics/FlatFounderFabric.cpp
-    classes/Sites/KufarSite.h classes/Sites/KufarSite.cpp
+    classes/Sites/Site.h classes/Sites/Site.cpp
     classes/Sites/RequestGeneraters/IRequestGenerator.h
     classes/Sites/RequestGeneraters/KufarRequestGenerator.h classes/Sites/RequestGeneraters/KufarRequestGenerator.cpp
     classes/Sites/HttpsClients/IHttpsClient.h
 
     classes/Sites/HttpsClients/DefaultHttpsClient.h classes/Sites/HttpsClients/DefaultHttpsClient.cpp
-    classes/Converters/ResultConverter.h classes/Converters/ResultConverter.cpp
+    classes/Converters/KufarResultConverter.h classes/Converters/KufarResultConverter.cpp
     classes/Presentaters/TGPresentators.h classes/Presentaters/TGPresentators.cpp
     classes/Settings/SettingsSingltons.h classes/Settings/SettingsSingltons.cpp
+
+    classes/Sites/RequestGeneraters/OnlinerRequestGenerator.h classes/Sites/RequestGeneraters/OnlinerRequestGenerator.cpp
+    classes/Converters/OnlinerResultConverter.h classes/Converters/OnlinerResultConverter.cpp
 
 
     )
@@ -71,8 +74,10 @@ target_link_libraries(FlatFounder PRIVATE
     Qt6::Network
 
     Boost::program_options
+    iconv
+    stdc++
 )
 
-if(WIN32)
-    target_link_libraries(FlatFounder PRIVATE -static-libstdc++ -static-libgcc)
-endif()
+# if(WIN32)
+#     target_link_libraries(FlatFounder PRIVATE -static-libstdc++ -static-libgcc)
+# endif()

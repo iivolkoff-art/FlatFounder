@@ -6,10 +6,10 @@
 #include <vector>
 
 
-class ResultConverter : public IConverter<std::vector<Result>, std::string>
+class KufarResultConverter : public IConverter<std::vector<Result>, std::string>
 {
 public:
-    ResultConverter();
+    KufarResultConverter();
     std::vector<Result> convert(const std::string& input) override;
 };
 

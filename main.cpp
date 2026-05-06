@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
             }
 
             if (vm.count("version")) {
-                std::cout << "0.8.1" << std::endl;
+                std::cout << "0.9.0" << std::endl;
                 return 0;
             }
 

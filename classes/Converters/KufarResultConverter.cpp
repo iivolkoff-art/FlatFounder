@@ -1,4 +1,4 @@
-#include "ResultConverter.h"
+#include "KufarResultConverter.h"
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
@@ -6,9 +6,9 @@
 
 
 
-ResultConverter::ResultConverter() {}
+KufarResultConverter::KufarResultConverter() {}
 
-std::vector<Result> ResultConverter::convert(const std::string& input) {
+std::vector<Result> KufarResultConverter::convert(const std::string& input) {
     std::vector<Result> vecRes;
 
     QByteArray jsonData = QByteArray::fromRawData(input.c_str(), static_cast<int>(input.size()));
