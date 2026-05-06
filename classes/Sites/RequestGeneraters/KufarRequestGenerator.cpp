@@ -37,6 +37,5 @@ QUrl KufarRequestGenerator::generate(const FlatFilters& filter)
 
 
     url.setQuery(query);
-    qDebug() << url;
     return url;
 }
