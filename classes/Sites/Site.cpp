@@ -9,11 +9,12 @@ std::vector<Result> Site::getInfo(const FlatFilters& filter){
     if(allResults.empty()) return {};
 
     std::vector<Result> Results;
+    Results.reserve(allResults.size());
     std::string currentMaxDate = dateLastMessageFromSites;
 
     for (const auto& res : allResults) {
         if (res.date > dateLastMessageFromSites) {
-            Results.push_back(res);
+            Results.push_back(std::move(res));
 
             if (res.date > currentMaxDate) {
                 currentMaxDate = res.date;
@@ -22,7 +23,7 @@ std::vector<Result> Site::getInfo(const FlatFilters& filter){
     }
 
     if (!Results.empty()) {
-        dateLastMessageFromSites = currentMaxDate;
+        dateLastMessageFromSites = std::move(currentMaxDate);
     }
 
     return Results;

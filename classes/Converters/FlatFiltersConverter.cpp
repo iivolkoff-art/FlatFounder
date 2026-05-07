@@ -35,35 +35,14 @@ FlatFilters FlatFiltersConverter::convert(const std::string& input) {
 
         QJsonArray roomsArray = filterObj["roomsCount"].toArray();
 
+        filters.roomsCount.reserve(roomsArray.size());
         for (const QJsonValue& x : roomsArray) {
             filters.roomsCount.push_back(x.toInt());
         }
 
-        switch(filterObj["transactionType"].toInt()){
-        case 1:
-            filters.transactionType = "let";
-            break;
-        default:
-            filters.transactionType = "let";
-            break;
-        }
-        switch(filterObj["currency"].toInt()){
-        case 1:
-            filters.currency = "BYN";
-            break;
-        default:
-            filters.currency = "BYN";
-            break;
-        }
-        switch(filterObj["houseType"].toInt()){
-        case 1:
-            filters.houseType = 1010;
-            break;
-        default:
-            filters.houseType = 1010;
-            break;
-        }
-
+        filters.transactionType = filterObj["transactionType"].toInt();
+        filters.currency = filterObj["currency"].toInt();
+        filters.houseType = filterObj["houseType"].toInt();
         filters.minPrice = filterObj["minPrice"].toInt();
         filters.maxPrice = filterObj["maxPrice"].toInt();
         filters.minFlatSize = filterObj["minFlatSize"].toInt();

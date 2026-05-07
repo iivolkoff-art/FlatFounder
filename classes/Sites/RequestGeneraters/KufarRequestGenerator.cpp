@@ -13,22 +13,48 @@ QUrl KufarRequestGenerator::generate(const FlatFilters& filter)
     for (const auto& r : filter.roomsCount) {
         rooms << QString::number(r);
     }
-    query.addQueryItem("cat", QString::number(filter.houseType)); // квартира
-    query.addQueryItem("typ", QString::fromStdString(filter.transactionType)); // аренда
-    query.addQueryItem("rgn",  QString::number(filter.rgn)); // регион Минск
-    //query.addQueryItem("pue", "1");
-    query.addQueryItem("sort", "lst.d"); // сортировать по дате
-    query.addQueryItem("size", QString::number(filter.adsNumber)); // 30 объявлений
-    query.addQueryItem("cur", QString::fromStdString(filter.currency)); // бел руб
+
+
+    query.addQueryItem("rgn",  QString::number(filter.rgn));
+    query.addQueryItem("sort", "lst.d");
+    query.addQueryItem("size", QString::number(filter.adsNumber));
     query.addQueryItem("prc", "r:" + QString::number(filter.minPrice * 100) + "," + QString::number(filter.maxPrice * 100)); // цена
     query.addQueryItem("st", "r:" + QString::number(filter.minFlatSize) + "," + QString::number(filter.maxFlatSize)); //квадраты квартиы общей площади
-    query.addQueryItem("rms", "v.or:" + rooms.join(",")); // количество комнат
+    query.addQueryItem("rms", "v.or:" + rooms.join(","));
+
+    switch(filter.houseType){
+    case 1:
+        query.addQueryItem("cat", "1010");
+        break;
+    default:
+        query.addQueryItem("cat", "1010");
+        break;
+    }
+
+    switch(filter.transactionType){
+    case 1:
+        query.addQueryItem("typ", "let");
+        break;
+    default:
+        query.addQueryItem("typ", "let");
+        break;
+    }
+
+    switch(filter.currency){
+    case 1:
+        query.addQueryItem("cur", "BYN");
+        break;
+    default:
+        query.addQueryItem("cur", "BYN");
+        break;
+    }
+
 
     if(filter.isPhoto){
-        query.addQueryItem("oph", "1"); // с фоткой
+        query.addQueryItem("oph", "1");
     }
     if(filter.isOwner){
-        query.addQueryItem("cmp", "0"); // собственник
+        query.addQueryItem("cmp", "0");
     }
     if(filter.isNearMetro){
         query.addQueryItem("mee", "v.or%3A3%2C6%2C5%2C36%2C7%2C10%2C11%2C14%2C13%2C15%2C16%2C17%2C20%2C21%2C22%2C23%2C33%2C29%2C26%2C34%2C27%2C28%2C25%2C24%2C19%2C35%2C12%2C18%2C8%2C4%2C32%2C2%2C9"); // метро

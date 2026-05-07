@@ -1,11 +1,10 @@
 #pragma once
-#include <string>
 #include <vector>
 
 struct FlatFilters{
-    std::string transactionType;
-    std::string currency;
     std::vector<int> roomsCount;
+    int transactionType;
+    int currency;
     int houseType;
     int rgn;
     int minPrice;
@@ -16,5 +15,4 @@ struct FlatFilters{
     bool isNearMetro;
     bool isPhoto;
     bool isOwner;
-
 };

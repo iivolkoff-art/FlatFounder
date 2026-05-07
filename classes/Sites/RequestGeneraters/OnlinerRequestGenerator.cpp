@@ -19,7 +19,16 @@ QUrl OnlinerRequestGenerator::generate(const FlatFilters& filter)
 
     query.addQueryItem("price[min]", QString::number(filter.minPrice));
     query.addQueryItem("price[max]", QString::number(filter.maxPrice));
-    query.addQueryItem("currency", QString::fromStdString(filter.currency));
+
+    switch(filter.currency){
+    case 1:
+        query.addQueryItem("currency", "BYN");
+        break;
+    default:
+        query.addQueryItem("currency", "BYN");
+        break;
+    }
+
 
     query.addQueryItem("only_owner", filter.isOwner ? "true" : "false");
 
