@@ -15,7 +15,6 @@ QUrl KufarRequestGenerator::generate(const FlatFilters& filter)
     }
 
 
-    query.addQueryItem("rgn",  QString::number(filter.rgn));
     query.addQueryItem("sort", "lst.d");
     query.addQueryItem("size", QString::number(filter.adsNumber));
     query.addQueryItem("prc", "r:" + QString::number(filter.minPrice * 100) + "," + QString::number(filter.maxPrice * 100)); // цена
@@ -44,11 +43,39 @@ QUrl KufarRequestGenerator::generate(const FlatFilters& filter)
     case 1:
         query.addQueryItem("cur", "BYN");
         break;
+    case 2:
+        query.addQueryItem("cur", "USD");
     default:
         query.addQueryItem("cur", "BYN");
         break;
     }
 
+
+    switch(filter.rgn){
+    case 1: // Brest
+        query.addQueryItem("rgn",  "1");
+        query.addQueryItem("ar",  "1");
+        break;
+    case 2: // Vitebsk
+        query.addQueryItem("rgn",  "6");
+        query.addQueryItem("ar",  "18");
+        break;
+    case 3: //Gomel
+        query.addQueryItem("rgn",  "2");
+        query.addQueryItem("ar",  "5");
+        break;
+    case 4: // Grodno
+        query.addQueryItem("rgn",  "3");
+        query.addQueryItem("ar",  "9");
+        break;
+    case 6: // Mogilev
+        query.addQueryItem("rgn",  "4");
+        query.addQueryItem("ar",  "13");
+        break;
+    case 7: // Minsk
+        query.addQueryItem("rgn",  "7");
+        break;
+    }
 
     if(filter.isPhoto){
         query.addQueryItem("oph", "1");

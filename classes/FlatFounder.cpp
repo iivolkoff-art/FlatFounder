@@ -3,7 +3,7 @@
 #include <chrono>
 #include <iostream>
 #include "Settings/SettingsSingltons.h"
-#include <thread>
+#include <future>
 
 FlatFounder::FlatFounder(std::unique_ptr<IReader> flatFilters_, std::vector<std::unique_ptr<ISites>> sites_,
                                 std::unique_ptr<IConverter<FlatFilters, std::string>> flatFilterConverter_,
@@ -32,8 +32,12 @@ void FlatFounder::start(){
         }
 
         if (!result.empty()) {
+            std::vector<std::future<void>> futures;
+
             for(const auto& x : presentaters) {
-                x->present(result);
+                futures.push_back(std::async(std::launch::async, [&x, result]() {
+                    x->present(result);
+                }));
             }
         }else{
             std::cout << "Flat Links is empty!" << std::endl;
