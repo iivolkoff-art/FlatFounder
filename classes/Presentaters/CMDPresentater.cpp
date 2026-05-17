@@ -13,6 +13,9 @@ void CMDPresentater::present(const std::vector<Result>& results){
         const auto& res = results[i];
         //std::cout << "   Link: \033]8;;" << res.link << "\033\\" << res.link << "\033]8;;\033\\" << std::endl;
         std::cout << "   Link: " << res.link << std::endl;
+        std::cout << "   Price: " << res.price << " " << res.currency << std::endl;
+        std::cout << "   Time: " << res.date << std::endl;
+
         std::cout << "----------------------------------------" << std::endl;
     }
     std::cout <<"\n\n\n\n" << std::endl;

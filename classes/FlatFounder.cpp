@@ -22,13 +22,20 @@ void FlatFounder::start(){
         filters = flatFilterConverter->convert(flatFilters->getData());
 
         std::vector<Result> result;
-
+        std::vector<std::thread> threads;
 
         for(const auto& x : sites) {
-            std::vector<Result> converted = x->getInfo(filters);
-            result.insert(result.end(),
-                            std::make_move_iterator(converted.begin()),
-                            std::make_move_iterator(converted.end()));
+            threads.emplace_back([&result, &x, this]{
+                std::vector<Result> converted = x->getInfo(filters);
+                std::scoped_lock scpLock(resultMtx);
+                result.insert(result.end(),
+                              std::make_move_iterator(converted.begin()),
+                              std::make_move_iterator(converted.end()));
+            });
+        }
+
+        for(auto& x: threads){
+            x.join();
         }
 
         if (!result.empty()) {

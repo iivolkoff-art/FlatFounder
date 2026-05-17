@@ -8,6 +8,7 @@
 #include "Presentaters/IPresentator.h"
 #include <Converters/IConverter.h>
 #include "FlatFilters.h"
+#include <mutex>
 
 class FlatFounder
 {
@@ -17,6 +18,7 @@ private:
     std::vector<std::unique_ptr<IPresentater>> presentaters;
     std::unique_ptr<IReader> flatFilters;
     std::unique_ptr<IConverter<FlatFilters, std::string>> flatFilterConverter;
+    std::mutex resultMtx;
 public:
     FlatFounder(std::unique_ptr<IReader> flatFilters_, std::vector<std::unique_ptr<ISites>> sites_,
                 std::unique_ptr<IConverter<FlatFilters, std::string>> flatFilterConverter_,

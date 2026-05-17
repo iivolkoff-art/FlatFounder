@@ -25,22 +25,54 @@ class TcpTgBot:
         print("Новое подключение")
         try:
             while True:
-                data = await reader.read(1024)
+                data = await reader.readline()
                 if not data:
                     break
 
-                messages = data.decode().strip().split('\n')
+                json_str = data.decode('utf-8').strip()
+                if not json_str:
+                    continue
 
-                users = self.db.get_all_users()
-                for msg in messages:
-                    if not msg: continue
+                try:
+                    json_data = json.loads(json_str)
 
-                    for user_id_tuple in users:
-                        user_id = user_id_tuple[0] if isinstance(user_id_tuple, tuple) else user_id_tuple
-                        try:
-                            await self.bot.send_message(user_id, f"Получено: {msg}")
-                        except Exception as e:
-                            print(f"Ошибка отправки {user_id}: {e}")
+                    if not isinstance(json_data, dict):
+                        print("Ошибка: Ожидался JSON-объект")
+                        continue
+
+                    json_array = json_data.get("FlatFounder")
+
+                    if not isinstance(json_array, list):
+                        print("Ошибка: Ключ 'FlatFounder' не найден или не является массивом")
+                        continue
+
+                    users = self.db.get_all_users()
+                    if not users:
+                        continue
+
+                    for item in json_array:
+                        link = item.get("link")
+                        image = item.get("image")
+                        price = item.get("price")
+                        date = item.get("date")
+                        currency = item.get("currency")
+                        if not link:
+                            continue
+
+                        for user_id_tuple in users:
+                            user_id = user_id_tuple[0] if isinstance(user_id_tuple, tuple) else user_id_tuple
+                            try:
+                                await self.bot.send_photo(chat_id=user_id, photo=image,
+                                                          caption=f"Квартира: {link} \nЦена: {price} {currency} \nВремя публикации: {date}")
+                            except Exception as e:
+                                print(f"Ошибка отправки пользователю {user_id}: {e}")
+
+                except json.JSONDecodeError as je:
+                    print(f"Ошибка парсинга JSON: {je}")
+                    print(f"Сырые данные: {json_str[:100]}...")
+
+        except Exception as e:
+            print(f"Ошибка в TCP-обработчике: {e}")
         finally:
             writer.close()
             await writer.wait_closed()

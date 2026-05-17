@@ -10,7 +10,6 @@ KufarResultConverter::KufarResultConverter() {}
 
 std::vector<Result> KufarResultConverter::convert(const std::string& input) {
     if(input.empty()) return {};
-
     std::vector<Result> vecRes;
 
     QByteArray jsonData = QByteArray::fromRawData(input.c_str(), static_cast<int>(input.size()));
@@ -31,9 +30,12 @@ std::vector<Result> KufarResultConverter::convert(const std::string& input) {
         Result res;
 
         res.link = ad["ad_link"].toString().toStdString();
-        res.date = ad["list_time"].toString().toStdString();
-        if (!ad["images"].toArray()[0].toString().isEmpty()) {
-            res.image = ad["images"].toArray()[0].toObject()["path"].toString().toStdString();
+        res.date = dateProcces(std::move(ad["list_time"].toString().toStdString()));
+        res.price = priceProccesing(std::move(ad["price_byn"].toString().toStdString()));
+        res.currency = "BYN";
+        QJsonArray imagesArray = ad["images"].toArray();
+        if (!imagesArray.isEmpty() && !imagesArray[0].toObject()["path"].toString().isEmpty()) {
+            res.image = "https://rms.kufar.by/v1/list_thumbs_2x/" + imagesArray[0].toObject()["path"].toString().toStdString();
         }
 
         if (!res.link.empty()) {
@@ -43,3 +45,34 @@ std::vector<Result> KufarResultConverter::convert(const std::string& input) {
 
     return vecRes;
 }
+
+
+std::string KufarResultConverter::priceProccesing(std::string price) {
+    if (price.empty()) {
+        return "no data";
+    }
+    if (price.size() == 1) {
+        return "0.0" + price;
+    }
+    if (price.size() == 2) {
+        return "0." + price;
+    }
+    price.insert(price.size() - 2, ".");
+    return price;
+}
+
+
+std::string KufarResultConverter::dateProcces(std::string date){
+    size_t tPos = date.find('T');
+    if (tPos == std::string::npos) {
+        return "no data";
+    }
+
+    size_t time_start = tPos + 1;
+    size_t zPos = date.find_first_of("Z+-", time_start);
+    size_t time_len = (zPos == std::string::npos) ? std::string::npos : (zPos - time_start);
+
+    return date.substr(time_start, time_len);
+}
+
+

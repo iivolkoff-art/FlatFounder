@@ -12,6 +12,7 @@
 #include "Converters/SettingsStructConverter.h"
 #include "Converters/KufarResultConverter.h"
 #include "Converters/OnlinerResultConverter.h"
+#include <Converters/ResultToJSONConverter.h>
 
 #include "Presentaters/IPresentator.h"
 #include "Presentaters/CMDPresentater.h"
@@ -26,7 +27,7 @@ FlatFounderFabric::FlatFounderFabric() {}
 std::unique_ptr<FlatFounder> FlatFounderFabric::createDefault(std::string filtersPath){
     std::vector<std::unique_ptr<IPresentater>> pres;
     pres.push_back(std::make_unique<CMDPresentater>());
-    pres.push_back(std::make_unique<TGPresentators>());
+    pres.push_back(std::make_unique<TGPresentators>(std::make_unique<ResultToJSONConverter>()));
 
     std::shared_ptr<IHttpsClient> defaultClient = std::make_shared<DefaultHttpsClient>();
     std::unique_ptr<ISites> kufarSites = std::make_unique<Site>(std::make_unique<KufarRequestGenerator>(), defaultClient, std::make_unique<KufarResultConverter>());
