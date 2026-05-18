@@ -42,7 +42,7 @@ void FlatFounder::start(){
             std::vector<std::future<void>> futures;
 
             for(const auto& x : presentaters) {
-                futures.push_back(std::async(std::launch::async, [&x, result]() {
+                futures.emplace_back(std::async(std::launch::async, [&x, result]() {
                     x->present(result);
                 }));
             }

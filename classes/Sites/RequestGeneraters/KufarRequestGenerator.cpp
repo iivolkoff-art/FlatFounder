@@ -45,6 +45,7 @@ QUrl KufarRequestGenerator::generate(const FlatFilters& filter)
         break;
     case 2:
         query.addQueryItem("cur", "USD");
+        break;
     default:
         query.addQueryItem("cur", "BYN");
         break;

@@ -68,11 +68,12 @@ std::string KufarResultConverter::dateProcces(std::string date){
         return "no data";
     }
 
-    size_t time_start = tPos + 1;
-    size_t zPos = date.find_first_of("Z+-", time_start);
-    size_t time_len = (zPos == std::string::npos) ? std::string::npos : (zPos - time_start);
+    size_t endPos = date.find_first_of("Z+-", tPos + 1);
+    if (endPos == std::string::npos) {
+        endPos = date.length();
+    }
 
-    return date.substr(time_start, time_len);
+    return date.substr(0, endPos);
 }
 
 
