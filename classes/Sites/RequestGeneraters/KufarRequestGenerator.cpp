@@ -34,6 +34,9 @@ QUrl KufarRequestGenerator::generate(const FlatFilters& filter)
     case 1:
         query.addQueryItem("typ", "let");
         break;
+    case 2:
+        query.addQueryItem("typ", "sell");
+        break;
     default:
         query.addQueryItem("typ", "let");
         break;

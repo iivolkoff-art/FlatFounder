@@ -5,18 +5,35 @@ OnlinerRequestGenerator::OnlinerRequestGenerator() {}
 
 QUrl OnlinerRequestGenerator::generate(const FlatFilters& filter)
 {
-    QUrl url("https://r.onliner.by/sdapi/ak.api/search/apartments");
+    QUrl url;
+
     QUrlQuery query;
+    switch(filter.transactionType){
+    case 1:
+        url = "https://r.onliner.by/sdapi/ak.api/search/apartments";
+        for (int r : filter.roomsCount) {
+            query.addQueryItem("rent_type[]", QString::number(r) + "_room" + (r > 1 ? "s" : ""));
+        }
+        break;
+    case 2:
+        url = "https://r.onliner.by/sdapi/pk.api/search/apartments";
+        for (int r : filter.roomsCount) {
+            query.addQueryItem("number_of_rooms[]", QString::number(r));
+        }
+        break;
+    default:
+        url = "https://r.onliner.by/sdapi/ak.api/search/apartments";
+        for (int r : filter.roomsCount) {
+            query.addQueryItem("rent_type", QString::number(r) + "_room" + (r > 1 ? "s" : ""));
+        }
+        break;
+    }
 
 
     QStringList rooms;
     for (const auto& r : filter.roomsCount) {
         rooms << QString::number(r);
     }
-    for (int r : filter.roomsCount) {
-        query.addQueryItem("rent_type[]", QString::number(r) + "_room" + (r > 1 ? "s" : ""));
-    }
-
     query.addQueryItem("price[min]", QString::number(filter.minPrice));
     query.addQueryItem("price[max]", QString::number(filter.maxPrice));
 
