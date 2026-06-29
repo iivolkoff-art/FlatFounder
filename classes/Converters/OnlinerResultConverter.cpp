@@ -10,7 +10,6 @@ OnlinerResultConverter::OnlinerResultConverter() {}
 
 std::vector<Result> OnlinerResultConverter::convert(const std::string& input) {
     if(input.empty()) return {};
-
     std::vector<Result> vecRes;
 
     QByteArray jsonData = QByteArray::fromRawData(input.c_str(), static_cast<int>(input.size()));

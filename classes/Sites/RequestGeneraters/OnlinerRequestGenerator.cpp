@@ -30,10 +30,7 @@ QUrl OnlinerRequestGenerator::generate(const FlatFilters& filter)
     }
 
 
-    QStringList rooms;
-    for (const auto& r : filter.roomsCount) {
-        rooms << QString::number(r);
-    }
+
     query.addQueryItem("price[min]", QString::number(filter.minPrice));
     query.addQueryItem("price[max]", QString::number(filter.maxPrice));
 

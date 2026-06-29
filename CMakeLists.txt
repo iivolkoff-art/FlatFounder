@@ -54,6 +54,8 @@ add_executable(FlatFounder main.cpp
     classes/Sites/RequestGeneraters/OnlinerRequestGenerator.h classes/Sites/RequestGeneraters/OnlinerRequestGenerator.cpp
     classes/Converters/OnlinerResultConverter.h classes/Converters/OnlinerResultConverter.cpp
     classes/Converters/ResultToJSONConverter.h classes/Converters/ResultToJSONConverter.cpp
+    classes/Sites/RequestGeneraters/RealtRequestGenerator.h classes/Sites/RequestGeneraters/RealtRequestGenerator.cpp
+    classes/Converters/RealtResultConverter.h classes/Converters/RealtResultConverter.cpp
 
 
     )
