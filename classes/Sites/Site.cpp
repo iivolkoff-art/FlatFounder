@@ -26,6 +26,8 @@ std::vector<Result> Site::getInfo(const FlatFilters& filter){
         dateLastMessageFromSites = std::move(currentMaxDate);
     }
 
+    if(Results.size() > filter.adsNumber) Results.resize(filter.adsNumber);
+
     return Results;
 }
 

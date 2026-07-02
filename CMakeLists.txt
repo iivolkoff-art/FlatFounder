@@ -56,6 +56,7 @@ add_executable(FlatFounder main.cpp
     classes/Converters/ResultToJSONConverter.h classes/Converters/ResultToJSONConverter.cpp
     classes/Sites/RequestGeneraters/RealtRequestGenerator.h classes/Sites/RequestGeneraters/RealtRequestGenerator.cpp
     classes/Converters/RealtResultConverter.h classes/Converters/RealtResultConverter.cpp
+    classes/Converters/RealtHTMLResultConverter.h classes/Converters/RealtHTMLResultConverter.cpp
 
 
     )
@@ -75,7 +76,6 @@ target_include_directories(FlatFounder PRIVATE
 target_link_libraries(FlatFounder PRIVATE
     Qt6::Core
     Qt6::Network
-
     Boost::program_options
     iconv
     stdc++

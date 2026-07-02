@@ -92,6 +92,12 @@ QUrl OnlinerRequestGenerator::generate(const FlatFilters& filter)
         query.addQueryItem("bounds[rt][lat]", "54.08758999370116");
         query.addQueryItem("bounds[rt][long]", "27.79403686523438");
         break;
+    default:
+        query.addQueryItem("bounds[lb][lat]", "53.71580928395326");
+        query.addQueryItem("bounds[lb][long]", "27.33055114746094");
+        query.addQueryItem("bounds[rt][lat]", "54.08758999370116");
+        query.addQueryItem("bounds[rt][long]", "27.79403686523438");
+        break;
     }
 
 

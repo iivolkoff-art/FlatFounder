@@ -2,15 +2,15 @@
 	"FlatFilters":{
 		    	"roomsCount": [1, 2, 3, 4],
     			"transactionType": 2,
-    			"currency": 1,
+    			"currency": 2,
     			"houseType": 1,
     			"rgn": 7,
     			"minPrice": 200,
-    			"maxPrice": 2000000,
-    			"minFlatSize": 30,
-    			"maxFlatSize": 1000,
+    			"maxPrice": 50000,
+    			"minFlatSize": 20,
+    			"maxFlatSize": 90,
     			"adsNumber": 15,
-    			"isNearMetro": 1,
+    			"isNearMetro": 0,
     			"isPhoto": 1,
     			"isOwner": 1
 		

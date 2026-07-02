@@ -11,6 +11,4 @@ class RealtResultConverter :  public IConverter<std::vector<Result>, std::string
 public:
     RealtResultConverter();
     std::vector<Result> convert(const std::string& input) override;
-// protected:
-//     std::string dateProcces(std::string date);
 };

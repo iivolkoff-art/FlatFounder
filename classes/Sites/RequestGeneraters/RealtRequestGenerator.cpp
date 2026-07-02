@@ -4,16 +4,57 @@
 RealtRequestGenerator::RealtRequestGenerator() {}
 
 
-//https://realt.by/rent-flat-for-long/object/*id*/
-
 QUrl RealtRequestGenerator::generate(const FlatFilters& filter)
 {
-    //https://realt.by/_next/data/-o1BUGVgd9-BmYmShILGu/belarus/rent/flat-for-long.json?
-
     QUrl url;
     QUrlQuery query;
 
-    url = "https://realt.by/rent/flat-for-long/?addressV2=%5B%7B\"townUuid\"%3A\"4cb07174-7b00-11eb-8943-0cc47adabd66\"%7D%5D";
+    switch(filter.transactionType){
+    case 1:
+        url = "https://realt.by/rent/flat-for-long/?";
+        break;
+    case 2:
+        url = "https://realt.by/sale/flats/";
+        query.addQueryItem("priceMeterType", "all");
+        break;
+    default:
+        url = "https://realt.by/rent/flat-for-long/?";
+        break;
+    }
+
+    switch(filter.rgn){
+    case 1: //Brest
+        query.addQueryItem("addressV2", "[{\"townUuid\":\"4c8f8db2-7b00-11eb-8943-0cc47adabd66\"}]");
+        break;
+    case 2://Vitebcsk
+        query.addQueryItem("addressV2", "[{\"townUuid\":\"4c9236d8-7b00-11eb-8943-0cc47adabd66\"}]");
+        break;
+    case 3://Gomel
+        query.addQueryItem("addressV2", "[{\"townUuid\":\"4c95d414-7b00-11eb-8943-0cc47adabd66\"}]");
+        break;
+    case 4://Grodno
+        query.addQueryItem("addressV2", "[{\"townUuid\":\"4c97eac6-7b00-11eb-8943-0cc47adabd66\"}]");
+        break;
+    case 6://Mogilev
+        query.addQueryItem("addressV2", "[{\"townUuid\":\"4cb0e950-7b00-11eb-8943-0cc47adabd66\"}]");
+        break;
+    case 7:
+        if(filter.isNearMetro){
+            query.addQueryItem("addressV2", "%5B%7B%22metroStationUuid%22%3A%22481c9f9e-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481ca613-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481caca1-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cb2fe-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cb3f0-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cb72e-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cb91d-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cbafb-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cbf4b-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cc223-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cc5e4-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%2282355720-a674-11eb-963d-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481ca4ae-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481ca9de-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481caba5-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cada1-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cae9a-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cb081-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cb170-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cb4e6-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cbc5a-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cc130-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cc404-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cc4f8-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%2251ca0078-a674-11eb-963d-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481ca729-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481ca889-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481caf96-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cb5df-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cb824-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cba0d-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cbd4f-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cbe47-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cc03e-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cc312-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22c27127ef-a674-11eb-963d-0cc47adabd66%22%7D%5D"); // метро
+        }else{
+            query.addQueryItem("addressV2", "[{\"townUuid\":\"4cb07174-7b00-11eb-8943-0cc47adabd66\"}]");
+        }
+        break;
+    default:
+        if(filter.isNearMetro){
+            query.addQueryItem("addressV2", "%5B%7B%22metroStationUuid%22%3A%22481c9f9e-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481ca613-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481caca1-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cb2fe-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cb3f0-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cb72e-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cb91d-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cbafb-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cbf4b-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cc223-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cc5e4-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%2282355720-a674-11eb-963d-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481ca4ae-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481ca9de-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481caba5-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cada1-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cae9a-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cb081-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cb170-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cb4e6-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cbc5a-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cc130-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cc404-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cc4f8-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%2251ca0078-a674-11eb-963d-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481ca729-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481ca889-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481caf96-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cb5df-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cb824-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cba0d-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cbd4f-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cbe47-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cc03e-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cc312-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22c27127ef-a674-11eb-963d-0cc47adabd66%22%7D%5D"); // метро
+        }else{
+            query.addQueryItem("addressV2", "[{\"townUuid\":\"4cb07174-7b00-11eb-8943-0cc47adabd66\"}]");
+        }
+        break;
+    }
+
+
 
     QStringList rooms;
     for (const auto& r : filter.roomsCount) {
@@ -49,13 +90,10 @@ QUrl RealtRequestGenerator::generate(const FlatFilters& filter)
     if(filter.isOwner){
         query.addQueryItem("isNotAgency", "true");
     }
-    if(filter.isNearMetro){
-        //query.addQueryItem("addressV2", "%5B%7B%22metroStationUuid%22%3A%22481c9f9e-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481ca613-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481caca1-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cb2fe-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cb3f0-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cb72e-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cb91d-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cbafb-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cbf4b-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cc223-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cc5e4-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%2282355720-a674-11eb-963d-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481ca4ae-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481ca9de-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481caba5-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cada1-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cae9a-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cb081-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cb170-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cb4e6-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cbc5a-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cc130-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cc404-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cc4f8-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%2251ca0078-a674-11eb-963d-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481ca729-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481ca889-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481caf96-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cb5df-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cb824-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cba0d-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cbd4f-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cbe47-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cc03e-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cc312-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22c27127ef-a674-11eb-963d-0cc47adabd66%22%7D%5D"); // метро
-    }
     url.setQuery(query.query(QUrl::FullyEncoded));
 
 
     url.setQuery(query);
-    //qDebug() << url;
+    qDebug() << url;
     return url;
 }
