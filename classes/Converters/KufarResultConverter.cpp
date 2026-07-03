@@ -24,7 +24,7 @@ std::vector<Result> KufarResultConverter::convert(const std::string& input) {
 
     QJsonObject root = doc.object();
     QJsonArray adsArray = root["ads"].toArray();
-
+    vecRes.reserve(adsArray.size());
     for (const QJsonValue& value : adsArray) {
         QJsonObject ad = value.toObject();
         Result res;
@@ -62,18 +62,5 @@ std::string KufarResultConverter::priceProccesing(std::string price) {
 }
 
 
-std::string KufarResultConverter::dateProcces(std::string date){
-    size_t tPos = date.find('T');
-    if (tPos == std::string::npos) {
-        return "no data";
-    }
-
-    size_t endPos = date.find_first_of("Z+-", tPos + 1);
-    if (endPos == std::string::npos) {
-        endPos = date.length();
-    }
-
-    return date.substr(0, endPos);
-}
 
 

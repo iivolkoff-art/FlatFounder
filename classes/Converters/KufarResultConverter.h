@@ -13,6 +13,5 @@ public:
     std::vector<Result> convert(const std::string& input) override;
 protected:
     std::string priceProccesing(std::string price);
-    std::string dateProcces(std::string date);
 };
 

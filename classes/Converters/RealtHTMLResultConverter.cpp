@@ -21,7 +21,7 @@ std::vector<Result> RealtHTMLResultConverter::convert(const std::string& input) 
             QJsonObject priceRates = obj["priceRates"].toObject();
             res.price = std::to_string(priceRates["933"].toInt());
 
-            res.date = obj["updatedAt"].toString().toStdString();
+            res.date = dateProcces(std::move(obj["updatedAt"].toString().toStdString()));
             int code = obj["code"].toInt();
             switch(obj["category"].toInt()){
             case 2:
@@ -93,3 +93,4 @@ QJsonArray RealtHTMLResultConverter::convertToJsonArray(const QString& jsonStrin
     }
     return QJsonArray();
 }
+

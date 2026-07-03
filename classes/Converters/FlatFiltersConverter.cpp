@@ -50,6 +50,9 @@ FlatFilters FlatFiltersConverter::convert(const std::string& input) {
         filters.adsNumber = filterObj["adsNumber"].toInt();
         filters.rgn = filterObj["rgn"].toInt();
         filters.isNearMetro = filterObj["isNearMetro"].toInt() != 0;
+
+        if(filters.isNearMetro && filters.rgn != 7) throw std::runtime_error("Error: Only Minsk has a metro.\n           Change isNearMetro or rgn param");
+
         filters.isPhoto = filterObj["isPhoto"].toInt() != 0;
         filters.isOwner = filterObj["isOwner"].toInt() != 0;
 
@@ -58,5 +61,70 @@ FlatFilters FlatFiltersConverter::convert(const std::string& input) {
         throw std::runtime_error("Error: Incorrect JSON struct of \n" + input);
     }
 
+    validateAndFix(filters);
+
+
     return filters;
+}
+
+
+void FlatFiltersConverter::validateAndFix(FlatFilters& filters){
+    if (filters.transactionType < 0) {
+        filters.transactionType = 1;
+        qWarning() << "Warning: transactionType was less than 0. Reset to 1.";
+    }
+    if (filters.currency < 0) {
+        filters.currency = 1;
+        qWarning() << "Warning: currency was less than 0. Reset to 1.";
+    }
+    if (filters.houseType < 0) {
+        filters.houseType = 1;
+        qWarning() << "Warning: houseType was less than 0. Reset to 1.";
+    }
+    if (filters.minPrice < 1) {
+        filters.minPrice = 1;
+        qWarning() << "Warning: minPrice was less than 1. Reset to 1.";
+    }
+    if (filters.maxPrice < 1) {
+        filters.maxPrice = 1;
+        qWarning() << "Warning: maxPrice was less than 1. Reset to 1.";
+    }
+    if (filters.minFlatSize < 0) {
+        filters.minFlatSize = 0;
+        qWarning() << "Warning: minFlatSize was less than 0. Reset to 0.";
+    }
+    if (filters.maxFlatSize < 0) {
+        filters.maxFlatSize = 0;
+        qWarning() << "Warning: maxFlatSize was less than 0. Reset to 0.";
+    }
+    if (filters.adsNumber < 0) {
+        filters.adsNumber = 0;
+        qWarning() << "Warning: adsNumber was less than 0. Reset to 0.";
+    }
+    if (filters.rgn < 0) {
+        filters.rgn = 7;
+        qWarning() << "Warning: rgn was less than 0. Reset to 7 (Minsk).";
+    }
+
+
+    if(filters.minPrice > filters.maxPrice){
+        filters.minPrice = 1;
+        qWarning() << "Warning: minPrice more then maxPrice. Current status of minPrice is 1!";
+    }
+    if(filters.minFlatSize > filters.maxFlatSize){
+        filters.minFlatSize = 1;
+        qWarning() << "Warning: minFlatSize more then maxFlatSize. Current status of minFlatSize is 1!";
+    }
+
+    if(filters.roomsCount.size() > 4){
+        filters.roomsCount = {1, 2, 3, 4};
+        qWarning() << "Warning: roomsCount was more than 4 rooms. Reset to [1, 2, 3, 4].";
+    }
+    for(const int& x: filters.roomsCount){
+        if(x != 1 && x != 2 && x != 3 && x != 4){
+            filters.roomsCount = {1, 2, 3, 4};
+            qWarning() << "Warning: incorrect value in roomsCount:" << x << ". Reset to [1, 2, 3, 4].";
+            break;
+        }
+    }
 }

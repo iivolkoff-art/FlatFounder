@@ -46,8 +46,7 @@ QUrl OnlinerRequestGenerator::generate(const FlatFilters& filter)
         break;
     }
 
-
-    query.addQueryItem("only_owner", filter.isOwner ? "true" : "false");
+    if(filter.isOwner) query.addQueryItem("only_owner", "true");
 
     if(filter.isNearMetro){
         query.addQueryItem("metro[]", "red_line");
@@ -87,11 +86,6 @@ QUrl OnlinerRequestGenerator::generate(const FlatFilters& filter)
         query.addQueryItem("bounds[rt][long]", "30.563621520996097");
         break;
     case 7: // Minsk
-        query.addQueryItem("bounds[lb][lat]", "53.71580928395326");
-        query.addQueryItem("bounds[lb][long]", "27.33055114746094");
-        query.addQueryItem("bounds[rt][lat]", "54.08758999370116");
-        query.addQueryItem("bounds[rt][long]", "27.79403686523438");
-        break;
     default:
         query.addQueryItem("bounds[lb][lat]", "53.71580928395326");
         query.addQueryItem("bounds[lb][long]", "27.33055114746094");

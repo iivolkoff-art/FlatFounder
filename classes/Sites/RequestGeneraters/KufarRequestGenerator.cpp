@@ -78,6 +78,7 @@ QUrl KufarRequestGenerator::generate(const FlatFilters& filter)
         query.addQueryItem("ar",  "13");
         break;
     case 7: // Minsk
+    default:
         query.addQueryItem("rgn",  "7");
         break;
     }
