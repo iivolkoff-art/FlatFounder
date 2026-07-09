@@ -87,7 +87,7 @@ QUrl KufarRequestGenerator::generate(const FlatFilters& filter)
         query.addQueryItem("oph", "1");
     }
     if(filter.isOwner){
-        query.addQueryItem("cmp", "1");
+        query.addQueryItem("cmp", "0");
     }
     if(filter.isNearMetro){
         query.addQueryItem("mee", "v.or%3A3%2C6%2C5%2C36%2C7%2C10%2C11%2C14%2C13%2C15%2C16%2C17%2C20%2C21%2C22%2C23%2C33%2C29%2C26%2C34%2C27%2C28%2C25%2C24%2C19%2C35%2C12%2C18%2C8%2C4%2C32%2C2%2C9"); // метро

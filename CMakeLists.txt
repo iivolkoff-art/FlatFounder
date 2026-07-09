@@ -19,11 +19,13 @@ endif()
 
 if(MINGW)
     list(APPEND CMAKE_PREFIX_PATH "C:/msys64/ucrt64")
+    set(SQLite3_ROOT "C:/msys64/ucrt64")
 endif()
 
 
 find_package(Boost REQUIRED COMPONENTS program_options)
 find_package(Qt6 REQUIRED COMPONENTS Core Network)
+#find_package(SQLite3 REQUIRED)
 
 add_executable(FlatFounder main.cpp
     classes/Readers/IReader.h
@@ -57,9 +59,15 @@ add_executable(FlatFounder main.cpp
     classes/Sites/RequestGeneraters/RealtRequestGenerator.h classes/Sites/RequestGeneraters/RealtRequestGenerator.cpp
     classes/Converters/RealtResultConverter.h classes/Converters/RealtResultConverter.cpp
     classes/Converters/RealtHTMLResultConverter.h classes/Converters/RealtHTMLResultConverter.cpp
+    classes/DB/IDbCore.h
+    classes/DB/SQLite/MainDBSQLite.h classes/DB/SQLite/MainDBSQLite.cpp
+    classes/DB/SQLite/ConnecterDBSQLite.h classes/DB/SQLite/ConnecterDBSQLite.cpp
+    classes/DB/IDbSearch.h
+    classes/DB/IMainSql.h
 
 
-    )
+
+)
 
 include(GNUInstallDirs)
 
@@ -78,6 +86,7 @@ target_link_libraries(FlatFounder PRIVATE
     Qt6::Network
     Boost::program_options
     iconv
+    sqlite3         # <-- ПРОСТО ПИШЕМ sqlite3 НАПРЯМУЮ ВОТ ТАК
     stdc++
 )
 

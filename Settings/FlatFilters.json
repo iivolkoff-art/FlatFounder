@@ -10,7 +10,7 @@
     			"minFlatSize": 0,
     			"maxFlatSize": 90,
     			"adsNumber": 15,
-    			"isNearMetro": 0,
+    			"isNearMetro": 1,
     			"isPhoto": 1,
     			"isOwner": 1
 		

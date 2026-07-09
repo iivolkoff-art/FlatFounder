@@ -5,6 +5,7 @@ template <typename Out, typename In>
 class IConverter{
 public:
     virtual Out convert(const In& input) = 0;
+    virtual ~IConverter() = default;
 protected:
     std::string dateProcces(std::string date){
         size_t tPos = date.find('T');

@@ -6,6 +6,8 @@
 class IPresentater{
 public:
     virtual void present(const std::vector<Result>& results) = 0;
+
+    virtual ~IPresentater() = default;
 };
 
 

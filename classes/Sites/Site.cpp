@@ -1,7 +1,8 @@
 #include "Site.h"
+#include <iostream>
 
-Site::Site(std::unique_ptr<IRequestGenerator> generator_, std::shared_ptr<IHttpsClient> client_, std::unique_ptr<IConverter<std::vector<Result>, std::string>> converter_)
-    : generator(std::move(generator_)), client(std::move(client_)), converter(std::move(converter_)), dateLastMessageFromSites("") {}
+Site::Site(std::unique_ptr<IRequestGenerator> generator_, std::shared_ptr<IHttpsClient> client_, std::unique_ptr<IConverter<std::vector<Result>, std::string>> converter_, std::shared_ptr<IMainSql> database_)
+    : generator(std::move(generator_)), client(std::move(client_)), converter(std::move(converter_)), database(std::move(database_)) {}
 
 
 std::vector<Result> Site::getInfo(const FlatFilters& filter){
@@ -10,20 +11,15 @@ std::vector<Result> Site::getInfo(const FlatFilters& filter){
 
     std::vector<Result> Results;
     Results.reserve(allResults.size());
-    std::string currentMaxDate = dateLastMessageFromSites;
 
     for (const auto& res : allResults) {
-        if (res.date > dateLastMessageFromSites) {
-            Results.push_back(std::move(res));
-
-            if (res.date > currentMaxDate) {
-                currentMaxDate = res.date;
+        if (!database->isUrlExists(res.link)) {
+            if(!database->saveProperty(res)){
+                std::cout << "Error: cannot write " << res.link << " data to database" << std::endl;
+                continue;
             }
+            Results.push_back(std::move(res));
         }
-    }
-
-    if (!Results.empty()) {
-        dateLastMessageFromSites = std::move(currentMaxDate);
     }
 
     if(Results.size() > filter.adsNumber) Results.resize(filter.adsNumber);

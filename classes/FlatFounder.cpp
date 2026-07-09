@@ -12,8 +12,8 @@ FlatFounder::FlatFounder(std::unique_ptr<IReader> flatFilters_, std::vector<std:
                                         flatFilters(std::move(flatFilters_)),
                                         sites(std::move(sites_)),
                                         flatFilterConverter(std::move(flatFilterConverter_)),
-                                        presentaters(std::move(presentaters_)){
-}
+                                        presentaters(std::move(presentaters_))
+{}
 
 void FlatFounder::start(){
     for(;;){
@@ -36,6 +36,9 @@ void FlatFounder::start(){
         // for(auto& x: threads){
         //     x.join();
         // }
+
+
+
 
         if (!result.empty()) {
             std::vector<std::future<void>> futures;

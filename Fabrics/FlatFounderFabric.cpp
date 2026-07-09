@@ -22,6 +22,9 @@
 #include "Converters/OnlinerResultConverter.h"
 #include "Converters/RealtHTMLResultConverter.h"
 
+#include "DB/IMainSql.h"
+#include "DB/SQLite/MainDBSQLite.h"
+
 FlatFounderFabric::FlatFounderFabric() {}
 
 
@@ -31,9 +34,12 @@ std::unique_ptr<FlatFounder> FlatFounderFabric::createDefault(std::string filter
     pres.push_back(std::make_unique<TGPresentators>(std::make_unique<ResultToJSONConverter>()));
 
     std::shared_ptr<IHttpsClient> defaultClient = std::make_shared<DefaultHttpsClient>();
-    std::unique_ptr<ISites> kufarSites = std::make_unique<Site>(std::make_unique<KufarRequestGenerator>(), defaultClient, std::make_unique<KufarResultConverter>());
-    std::unique_ptr<ISites> onlinerSites = std::make_unique<Site>(std::make_unique<OnlinerRequestGenerator>(), defaultClient, std::make_unique<OnlinerResultConverter>());
-    std::unique_ptr<ISites> realtSites = std::make_unique<Site>(std::make_unique<RealtRequestGenerator>(), defaultClient, std::make_unique<RealtHTMLResultConverter>());
+    std::shared_ptr<IMainSql> mainSQLite = std::make_unique<MainDBSQLite>(std::move(SettingsSingltons::instance().getSettings().dbPath));
+    mainSQLite->connectToDb();
+
+    std::unique_ptr<ISites> kufarSites = std::make_unique<Site>(std::make_unique<KufarRequestGenerator>(), defaultClient, std::make_unique<KufarResultConverter>(), mainSQLite);
+    std::unique_ptr<ISites> onlinerSites = std::make_unique<Site>(std::make_unique<OnlinerRequestGenerator>(), defaultClient, std::make_unique<OnlinerResultConverter>(), mainSQLite);
+    std::unique_ptr<ISites> realtSites = std::make_unique<Site>(std::make_unique<RealtRequestGenerator>(), defaultClient, std::make_unique<RealtHTMLResultConverter>(), mainSQLite);
 
     std::vector<std::unique_ptr<ISites>> sites;
     sites.push_back(std::move(kufarSites));

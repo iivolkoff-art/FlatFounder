@@ -6,6 +6,7 @@
 class ISites{
 public:
     virtual std::vector<Result> getInfo(const FlatFilters& filter_) = 0;
+    virtual ~ISites() = default;
 protected:
     virtual QUrl generateRequest(const FlatFilters& filter_) = 0;
 };

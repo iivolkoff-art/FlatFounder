@@ -33,6 +33,7 @@ std::vector<Result> KufarResultConverter::convert(const std::string& input) {
         res.date = dateProcces(std::move(ad["list_time"].toString().toStdString()));
         res.price = priceProccesing(std::move(ad["price_byn"].toString().toStdString()));
         res.currency = "BYN";
+
         QJsonArray imagesArray = ad["images"].toArray();
         if (!imagesArray.isEmpty() && !imagesArray[0].toObject()["path"].toString().isEmpty()) {
             res.image = "https://rms.kufar.by/v1/list_thumbs_2x/" + imagesArray[0].toObject()["path"].toString().toStdString();

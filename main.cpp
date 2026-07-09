@@ -4,7 +4,7 @@
 #include <iostream>
 
 int main(int argc, char *argv[])
-{
+{ 
     std::unique_ptr<FlatFounder> flatFounder = nullptr;
 
 
