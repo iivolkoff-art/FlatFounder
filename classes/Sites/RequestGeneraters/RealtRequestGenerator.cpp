@@ -4,6 +4,10 @@
 RealtRequestGenerator::RealtRequestGenerator() {}
 
 
+//https://realt.by/rent/booking/?dateStart=2026-07-10&dateEnd=2026-07-11&rooms=4&rooms=1&rooms=2&rooms=3&areaFrom=5&areaTo=45&priceType=840&priceFrom=1&priceTo=500&countAdult=1&addressV2=%5B%7B"townUuid"%3A"4cb07174-7b00-11eb-8943-0cc47adabd66"%7D%5D&bookingObjects=1&bookingObjects=2&page=1
+//flat for day
+
+
 QUrl RealtRequestGenerator::generate(const FlatFilters& filter)
 {
     QUrlQuery query;

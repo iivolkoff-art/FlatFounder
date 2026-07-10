@@ -14,7 +14,7 @@ public:
 protected:
     QJsonArray convertToJsonArray(const QString& jsonString);
     QJsonArray parseObjectsFromHtml(const QString& html);
-    int findJsonStart(const QString& html);
+    virtual int findJsonStart(const QString& html);
     int findJsonEnd(const QString& html, int startIndex);
 };
 

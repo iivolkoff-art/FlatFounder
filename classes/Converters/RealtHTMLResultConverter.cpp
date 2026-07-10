@@ -22,13 +22,12 @@ std::vector<Result> RealtHTMLResultConverter::convert(const std::string& input) 
             res.price = std::to_string(priceRates["933"].toInt());
 
             res.date = dateProcces(std::move(obj["updatedAt"].toString().toStdString()));
-            int code = obj["code"].toInt();
             switch(obj["category"].toInt()){
             case 2:
-                res.link = "https://realt.by/rent-flat-for-long/object/" + std::to_string(code);
+                res.link = "https://realt.by/rent-flat-for-long/object/" + std::to_string(obj["code"].toInt());
                 break;
             case 5:
-                res.link = "https://realt.by/sale-flats/object/" + std::to_string(code);
+                res.link = "https://realt.by/sale-flats/object/" + std::to_string(obj["code"].toInt());
                 break;
             }
             QJsonArray imagesArray = obj["images"].toArray();

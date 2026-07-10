@@ -64,6 +64,9 @@ add_executable(FlatFounder main.cpp
     classes/DB/SQLite/ConnecterDBSQLite.h classes/DB/SQLite/ConnecterDBSQLite.cpp
     classes/DB/IDbSearch.h
     classes/DB/IMainSql.h
+    classes/Converters/RealtHTMLForDayResultConvert.h classes/Converters/RealtHTMLForDayResultConvert.cpp
+    classes/Converters/KufarForDayResultConverter.h classes/Converters/KufarForDayResultConverter.cpp
+
 
 
 

@@ -13,6 +13,7 @@ std::vector<Result> Site::getInfo(const FlatFilters& filter){
     Results.reserve(allResults.size());
 
     for (const auto& res : allResults) {
+        if(Results.size() >= filter.adsNumber) break;
         if (!database->isUrlExists(res.link)) {
             if(!database->saveProperty(res)){
                 std::cout << "Error: cannot write " << res.link << " data to database" << std::endl;
@@ -21,9 +22,6 @@ std::vector<Result> Site::getInfo(const FlatFilters& filter){
             Results.push_back(std::move(res));
         }
     }
-
-    if(Results.size() > filter.adsNumber) Results.resize(filter.adsNumber);
-
     return Results;
 }
 

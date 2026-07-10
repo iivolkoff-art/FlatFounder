@@ -3,11 +3,27 @@
 
 KufarRequestGenerator::KufarRequestGenerator() {}
 
+
+
+//flat for day
+//https://api.kufar.by/search-api/v2/search/rendered-paginated?aid=v.or%3A242283051%2C1015717420%2C1071045051%2C230021283%2C1015432771&lang=ru&size=1
+//https://api.kufar.by/booking/auth-bypass/v2/search/geo?bkat=v.or%3A1&bkbt=v.or%3A5&bkcl=rn%3A20644%2C20645%2C1%2C0&bku=1%2C1&cat=25010&gtsy=country-belarus~province-minsk~locality-minsk&prc=r%3A0%2C50000&rms=v.or%3A1%2C2%2C3%2C4%2C5%2C6%2C7%2C8%2C9%2C10&size=1&st=r%3A0%2C40
 QUrl KufarRequestGenerator::generate(const FlatFilters& filter)
 {
     QUrl url("https://api.kufar.by/search-api/v2/search/rendered-paginated");
     QUrlQuery query;
 
+    switch(filter.transactionType){
+    case 1:
+        query.addQueryItem("typ", "let");
+        break;
+    case 2:
+        query.addQueryItem("typ", "sell");
+        break;
+    default:
+        query.addQueryItem("typ", "let");
+        break;
+    }
 
     QStringList rooms;
     for (const auto& r : filter.roomsCount) {
@@ -43,17 +59,6 @@ QUrl KufarRequestGenerator::generate(const FlatFilters& filter)
         break;
     }
 
-    switch(filter.transactionType){
-    case 1:
-        query.addQueryItem("typ", "let");
-        break;
-    case 2:
-        query.addQueryItem("typ", "sell");
-        break;
-    default:
-        query.addQueryItem("typ", "let");
-        break;
-    }
 
 
     switch(filter.rgn){

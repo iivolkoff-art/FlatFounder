@@ -109,7 +109,7 @@ QUrl OnlinerRequestGenerator::generate(const FlatFilters& filter)
 
     url.setQuery(query.query(QUrl::FullyEncoded));
 
-    url.setQuery(query);
+    //url.setQuery(query);
     return url;
 }
 
