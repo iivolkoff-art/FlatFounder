@@ -13,8 +13,6 @@ QJsonDocument ResultToJSONConverter::convert(const std::vector<Result>& input){
         QJsonObject jsonObj;
         jsonObj["link"] = QString::fromStdString(x.link);
         jsonObj["image"] = QString::fromStdString(x.image);
-        //std::string dateWithSpace = x.date;
-        //std::replace(dateWithSpace.begin(), dateWithSpace.end(), 'T', ' ');
         jsonObj["date"] = QString::fromStdString(x.date);
         jsonObj["price"] = QString::fromStdString(x.price);
         jsonObj["currency"] = QString::fromStdString(x.currency);

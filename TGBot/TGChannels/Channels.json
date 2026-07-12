@@ -1,8 +1,4 @@
 {
-	"MinskLong":{
-		"ChanelKey": "Key"
-	},
-	"BrestLong":{
-		"ChanelKey": "Key"
-	}
+	"MinskLong": -100..,
+	"BrestLong": -100..
 }

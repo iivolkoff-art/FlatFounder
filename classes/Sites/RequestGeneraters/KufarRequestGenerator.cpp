@@ -33,21 +33,21 @@ QUrl KufarRequestGenerator::generate(const FlatFilters& filter)
     switch(filter.currency){
     case 1:
         query.addQueryItem("cur", "BYN");
-        query.addQueryItem("prc", "r:" + QString::number(filter.minPrice * 100) + "," + QString::number(filter.maxPrice * 100)); //цена
+        query.addQueryItem("prc", "r:" + QString::number(filter.minPrice * 100) + "," + QString::number(filter.maxPrice * 100));
         break;
     case 2:
         query.addQueryItem("cur", "USD");
-        query.addQueryItem("prc", "r:" + QString::number(filter.minPrice) + "," + QString::number(filter.maxPrice)); //цена
+        query.addQueryItem("prc", "r:" + QString::number(filter.minPrice) + "," + QString::number(filter.maxPrice));
         break;
     default:
         query.addQueryItem("cur", "BYN");
-        query.addQueryItem("prc", "r:" + QString::number(filter.minPrice * 100) + "," + QString::number(filter.maxPrice * 100)); //цена
+        query.addQueryItem("prc", "r:" + QString::number(filter.minPrice * 100) + "," + QString::number(filter.maxPrice * 100));
         break;
     }
 
     query.addQueryItem("sort", "lst.d");
     query.addQueryItem("size", QString::number(filter.adsNumber));
-    query.addQueryItem("st", "r:" + QString::number(filter.minFlatSize) + "," + QString::number(filter.maxFlatSize)); //квадраты квартиы общей площади
+    query.addQueryItem("st", "r:" + QString::number(filter.minFlatSize) + "," + QString::number(filter.maxFlatSize));
     query.addQueryItem("rms", "v.or:" + rooms.join(","));
 
     switch(filter.houseType){

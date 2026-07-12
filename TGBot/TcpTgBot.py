@@ -1,28 +1,64 @@
 import json
+import asyncio
 from aiogram import Bot, Dispatcher, types
 from aiogram.filters import CommandStart
+from aiogram.exceptions import TelegramRetryAfter
 from DBHandler import DbHandler
 from TgChannelsOperator import TgChannelsOperator
-import asyncio
+
 
 class TcpTgBot:
     def __init__(self, config_path: str):
         self.__config_path = config_path
         self.__config = self._read_json_setting_file()
         self.__token = self.__config["TGToken"]
-        self.__db = DbHandler(self.__config["DataBase/BDName"])
-        self.__channels = TgChannelsOperator("TGChannels/Channels.json")
+        db_filename = self.__config["BDName"]
+        self.__db = DbHandler(f"./DataBase/{db_filename}")
+        self.__channels = TgChannelsOperator("./TGChannels/Channels.json")
         self.__ip = self.__config["IP"]
         self.__port = self.__config["Port"]
         self.__bot = Bot(token=self.__token)
         self.__dp = Dispatcher()
         self.__dp.message(CommandStart())(self.start_handler)
-
-
+        self.__queue = asyncio.Queue()
 
     async def start_handler(self, message: types.Message):
         self.__db.add_user(message.from_user.id)
-        await message.answer("Добро пожаловать Ivan Cool бота!")
+        await message.answer("Welcome to Ivan Cool bot!")
+
+    async def queue_worker(self):
+        while True:
+            item, user_id = await self.__queue.get()
+            link = item.get("link")
+            image = item.get("image")
+            price = item.get("price")
+            date = item.get("date")
+            currency = item.get("currency")
+
+            try:
+                await self.__bot.send_photo(
+                    chat_id=user_id,
+                    photo=image,
+                    caption=f"Apartment: {link} \nPrice: {price} {currency} \nPublished at: {date}"
+                )
+                if str(user_id).startswith("-100"):
+                    await asyncio.sleep(3.5)
+                else:
+                    await asyncio.sleep(0.2)
+            except TelegramRetryAfter as e:
+                print(f"Rate limit exceeded! Worker sleeping for {e.retry_after} seconds...")
+                await asyncio.sleep(e.retry_after)
+                try:
+                    await self.__bot.send_photo(
+                        chat_id=user_id, photo=image,
+                        caption=f"Apartment: {link} \nPrice: {price} {currency} \nPublished at: {date}"
+                    )
+                except Exception as re_err:
+                    print(f"Error: Retry sending failed: {re_err}")
+            except Exception as e:
+                print(f"Error: Error sending to the user {user_id}: {e}")
+            finally:
+                self.__queue.task_done()
 
     async def handle_tcp_client(self, reader, writer):
         print("NEW CONNECTION!")
@@ -43,34 +79,27 @@ class TcpTgBot:
                         print("Error: A JSON object was expected")
                         continue
 
-                    json_name:str = next(iter(json_data))
+                    json_name: str = next(iter(json_data))
                     json_array = json_data.get(json_name)
 
                     if not isinstance(json_array, list):
-                        print("Error: Key 'FlatFounder' is not found")
+                        print("Error: Targeted key array is not found")
                         continue
 
                     users = self.__db.get_all_users()
-                    users += self.__channels.get_channels()[json_name]
+                    channel_id = self.__channels.get_channels().get(json_name)
+
+                    if channel_id:
+                        users.append(channel_id)
+
                     if not users:
                         continue
 
                     for item in json_array:
-                        link = item.get("link")
-                        image = item.get("image")
-                        price = item.get("price")
-                        date = item.get("date")
-                        currency = item.get("currency")
-                        if not link:
+                        if not item.get("link"):
                             continue
-
-                        for user_id_tuple in users:
-                            user_id = user_id_tuple[0] if isinstance(user_id_tuple, tuple) else user_id_tuple
-                            try:
-                                await self.__bot.send_photo(chat_id=user_id, photo=image,
-                                                          caption=f"Квартира: {link} \nЦена: {price} {currency} \nВремя публикации: {date}")
-                            except Exception as e:
-                                print(f"Error: Error sending to the user {user_id}: {e}")
+                        for user_id in users:
+                            await self.__queue.put((item, user_id))
 
                 except json.JSONDecodeError as je:
                     print(f"JSON parsing error: {je}")
@@ -83,14 +112,14 @@ class TcpTgBot:
             await writer.wait_closed()
             print("Connection is closed")
 
-
     async def run(self):
         server = await asyncio.start_server(self.handle_tcp_client, self.__ip, self.__port)
         print(f"Current address: {self.__ip}:{self.__port}")
 
+        asyncio.create_task(self.queue_worker())
+
         async with server:
             await self.__dp.start_polling(self.__bot)
-
 
     def _read_json_setting_file(self):
         config = {}

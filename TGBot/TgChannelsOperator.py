@@ -2,7 +2,7 @@ import json
 
 class TgChannelsOperator:
     def __init__(self, tg_channels_file_path: str):
-        self.__channels:dict[str, str] = {}
+        self.__channels:dict[str, int] = {}
         self.__tg_channels_file_path = tg_channels_file_path
         self._read_file()
 

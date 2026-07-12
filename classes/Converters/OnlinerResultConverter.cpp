@@ -1,9 +1,10 @@
 #include "OnlinerResultConverter.h"
+#include "DateUtils/DateUtils.h"
+
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
 #include <iostream>
-
 
 
 OnlinerResultConverter::OnlinerResultConverter() {}
@@ -28,7 +29,7 @@ std::vector<Result> OnlinerResultConverter::convert(const std::string& input) {
         Result res;
 
         res.link = ad["url"].toString().toStdString();
-        res.date = dateProcces(std::move(ad["last_time_up"].toString().toStdString()));
+        res.date = DateUtils::dateProcces(std::move(ad["last_time_up"].toString().toStdString()));
         res.image = ad["photo"].toString().toStdString();
         res.price = ad["price"].toObject()["converted"].toObject()["BYN"].toObject()["amount"].toString().toStdString();
         res.currency = "BYN";

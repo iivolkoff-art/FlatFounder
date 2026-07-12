@@ -1,4 +1,6 @@
 #include "RealtHTMLForDayResultConvert.h"
+#include "DateUtils/DateUtils.h"
+
 #include <QJsonObject>
 
 
@@ -19,7 +21,7 @@ std::vector<Result> RealtHTMLForDayResultConvert::convert(const std::string& inp
             res.currency = "BYN";
             res.price = obj["calculatedPrice"].toInt();
 
-            res.date = dateProcces(std::move(obj["updatedAt"].toString().toStdString()));
+            res.date = DateUtils::dateProcces(std::move(obj["updatedAt"].toString().toStdString()));
             res.link = "https://realt.by/rent-flat-for-day/object/" + std::to_string(obj["code"].toInt());
             QJsonArray imagesArray = obj["images"].toArray();
             if (!imagesArray.isEmpty()) {

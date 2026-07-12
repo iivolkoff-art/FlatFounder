@@ -4,13 +4,13 @@
     			"transactionType": 1,
     			"currency": 2,
     			"houseType": 1,
-    			"rgn": 7,
+    			"rgn": 1,
     			"minPrice": 0,
     			"maxPrice": 1110,
     			"minFlatSize": 0,
     			"maxFlatSize": 90,
     			"adsNumber": 15,
-    			"isNearMetro": 1,
+    			"isNearMetro": 0,
     			"isPhoto": 1,
     			"isOwner": 1
 		

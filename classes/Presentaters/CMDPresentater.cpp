@@ -13,12 +13,7 @@ void CMDPresentater::present(const std::vector<Result>& results){
     for (size_t i = 0; i < results.size(); ++i) {
         std::cout << "   Link: " << results[i].link << std::endl;
         std::cout << "   Price: " << results[i].price << " " << results[i].currency << std::endl;
-
-        ///////////////////
-        std::string dateWithSpace = results[i].date;
-        std::replace(dateWithSpace.begin(), dateWithSpace.end(), 'T', ' ');
-        std::cout << "   Time: " << dateWithSpace << std::endl;
-        //////////////////
+        std::cout << "   Time: " << results[i].date << std::endl;
 
         std::cout << "----------------------------------------" << std::endl;
     }

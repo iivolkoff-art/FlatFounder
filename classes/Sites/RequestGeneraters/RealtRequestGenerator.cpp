@@ -94,7 +94,7 @@ QUrl RealtRequestGenerator::generate(const FlatFilters& filter)
         break;
     }
 
-    query.addQueryItem("areaTotalFrom", QString::number(filter.minFlatSize)); //квадраты квартиы общей площади
+    query.addQueryItem("areaTotalFrom", QString::number(filter.minFlatSize));
     query.addQueryItem("areaTotalTo", QString::number(filter.maxFlatSize));
 
 

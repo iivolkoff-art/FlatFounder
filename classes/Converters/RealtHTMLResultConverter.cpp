@@ -3,6 +3,7 @@
 #include <QString>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include "DateUtils/DateUtils.h"
 
 RealtHTMLResultConverter::RealtHTMLResultConverter() {}
 
@@ -21,7 +22,7 @@ std::vector<Result> RealtHTMLResultConverter::convert(const std::string& input) 
             QJsonObject priceRates = obj["priceRates"].toObject();
             res.price = std::to_string(priceRates["933"].toInt());
 
-            res.date = dateProcces(std::move(obj["updatedAt"].toString().toStdString()));
+            res.date = DateUtils::dateProcces(std::move(obj["updatedAt"].toString().toStdString()));
             switch(obj["category"].toInt()){
             case 2:
                 res.link = "https://realt.by/rent-flat-for-long/object/" + std::to_string(obj["code"].toInt());

@@ -13,15 +13,15 @@ void TGPresentators::present(const std::vector<Result>& results) {
 
     QByteArray jsonData = toJsonConverter->convert(results).toJson(QJsonDocument::Compact);
 
-    if (socket.waitForConnected(500)) {
+    if (socket.waitForConnected(100)) {
         jsonData.append('\n');
 
         socket.write(jsonData);
-        socket.waitForBytesWritten(500);
+        socket.waitForBytesWritten(100);
 
         socket.disconnectFromHost();
         if (socket.state() != QAbstractSocket::UnconnectedState) {
-            socket.waitForDisconnected(500);
+            socket.waitForDisconnected(100);
         }
     } else {
         std::cout << "Connection to TGBot is failed! " << socket.errorString().toStdString() << std::endl;

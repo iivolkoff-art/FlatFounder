@@ -66,6 +66,8 @@ add_executable(FlatFounder main.cpp
     classes/DB/IMainSql.h
     classes/Converters/RealtHTMLForDayResultConvert.h classes/Converters/RealtHTMLForDayResultConvert.cpp
     classes/Converters/KufarForDayResultConverter.h classes/Converters/KufarForDayResultConverter.cpp
+    classes/DateUtils/DateUtils.h classes/DateUtils/DateUtils.cpp
+    Fabrics/FounderType.h
 
 
 
@@ -82,6 +84,7 @@ install(TARGETS FlatFounder
 target_include_directories(FlatFounder PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/classes
     ${CMAKE_CURRENT_SOURCE_DIR}/Structs
+    ${CMAKE_CURRENT_SOURCE_DIR}/Fabrics
 )
 
 target_link_libraries(FlatFounder PRIVATE

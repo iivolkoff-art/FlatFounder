@@ -25,10 +25,32 @@
 #include "DB/IMainSql.h"
 #include "DB/SQLite/MainDBSQLite.h"
 
+
 FlatFounderFabric::FlatFounderFabric() {}
 
 
-std::unique_ptr<FlatFounder> FlatFounderFabric::createDefault(std::string filtersPath){
+std::unique_ptr<FlatFounder> FlatFounderFabric::createDefault(FounderType ft, std::string filtersPath){
+    switch(ft){
+    case FounderType::ShortLetFounder:
+        return createClassicFounder(std::move(filtersPath)); /////////
+    case FounderType::ClassicFounder:
+    default:
+        return createClassicFounder(std::move(filtersPath));
+        break;
+    }
+}
+
+
+void FlatFounderFabric::createSettings(std::string settingsPath){
+    std::unique_ptr<IReader> settingsFileReader = std::make_unique<FileReader>(std::move(settingsPath));
+    std::unique_ptr<IConverter<SettingsStruct, std::string>> settingsConverter = std::make_unique<SettingsStructConverter>();
+
+    SettingsSingltons::instance().setSettingsStruct(
+                                                std::move(settingsConverter->convert(settingsFileReader->getData())));
+}
+
+
+std::unique_ptr<FlatFounder> FlatFounderFabric::createClassicFounder(std::string filtersPath){
     std::vector<std::unique_ptr<IPresentater>> pres;
     pres.push_back(std::make_unique<CMDPresentater>());
     pres.push_back(std::make_unique<TGPresentators>(std::make_unique<ResultToJSONConverter>()));
@@ -48,15 +70,7 @@ std::unique_ptr<FlatFounder> FlatFounderFabric::createDefault(std::string filter
 
     return std::make_unique<FlatFounder>(
         std::make_unique<FileReader>(std::move(filtersPath)),
-                                        std::move(sites),
-                                        std::make_unique<FlatFiltersConverter>(),
-                                        std::move(pres));
-}
-
-void FlatFounderFabric::createSettings(std::string settingsPath){
-    std::unique_ptr<IReader> settingsFileReader = std::make_unique<FileReader>(std::move(settingsPath));
-    std::unique_ptr<IConverter<SettingsStruct, std::string>> settingsConverter = std::make_unique<SettingsStructConverter>();
-
-    SettingsSingltons::instance().setSettingsStruct(
-                                                std::move(settingsConverter->convert(settingsFileReader->getData())));
+        std::move(sites),
+        std::make_unique<FlatFiltersConverter>(),
+        std::move(pres));
 }
