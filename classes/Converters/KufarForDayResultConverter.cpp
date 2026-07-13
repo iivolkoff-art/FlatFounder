@@ -1,23 +1,20 @@
 #include "KufarForDayResultConverter.h"
-#include <QJsonObject>
 #include <QJsonArray>
-#include <iostream>
 
 KufarForDayResultConverter::KufarForDayResultConverter() {}
 
 
 std::vector<Result> KufarForDayResultConverter::convert(const std::string& input) {
+    //qDebug() << input;
     if(input.empty()) return {};
     std::vector<Result> vecRes;
 
     QByteArray jsonData = QByteArray::fromRawData(input.c_str(), static_cast<int>(input.size()));
 
     QJsonParseError error;
-    QJsonDocument doc = QJsonDocument::fromJson(jsonData, &error);
-
+    QJsonDocument doc = QJsonDocument::fromJson(QByteArray::fromStdString(input), &error);
     if (error.error != QJsonParseError::NoError) {
-        std::cout << "JSON Error:" << error.errorString().toStdString() << std::endl;
-        return vecRes;
+        qDebug() << "Error:" << error.errorString();
     }
 
     QJsonObject root = doc.object();
@@ -27,22 +24,30 @@ std::vector<Result> KufarForDayResultConverter::convert(const std::string& input
         QJsonObject ad = value.toObject();
         Result res;
 
-        std::string linkCode = ad["li"].toString().toStdString();
+        long long li_number = ad["li"].toVariant().toLongLong();
+        std::string linkCode = std::to_string(li_number);
+
         if(linkCode != "") continue;
 
-        res.link = "https://travel.kufar.by/vi/" + ad["li"].toString().toStdString();
+        res.link = "https://travel.kufar.by/vi/" + linkCode;
         res.date = "";
-        res.price = priceProccesing(std::move(ad["p"].toString().toStdString()));
+        res.price = priceProccesing(std::move(convertedPrice(ad)));
         res.currency = "BYN";
         res.image = "";
 
-        // QJsonArray imagesArray = ad["images"].toArray();
-        // if (!imagesArray.isEmpty() && !imagesArray[0].toObject()["path"].toString().isEmpty()) {
-        //     res.image = "https://rms.kufar.by/v1/list_thumbs_2x/" + imagesArray[0].toObject()["path"].toString().toStdString();
-        // }
+        qDebug() << res.link;
+        qDebug() << res.date;
+        qDebug() << res.price;
+        qDebug() << res.currency;
+        qDebug() << res.image;
 
         vecRes.push_back(std::move(res));
     }
 
     return vecRes;
+}
+
+std::string KufarForDayResultConverter::convertedPrice(QJsonObject ad){
+    int price = ad["p"].toVariant().toInt();
+    return std::to_string(price);
 }

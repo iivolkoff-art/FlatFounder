@@ -39,7 +39,7 @@ class TcpTgBot:
                 await self.__bot.send_photo(
                     chat_id=user_id,
                     photo=image,
-                    caption=f"Apartment: {link} \nPrice: {price} {currency} \nPublished at: {date}"
+                    caption=f'Источник<a href="{link}"🔎 \nЦена💵: {price} {currency} \nВремя публикации🕒: {date}'
                 )
                 if str(user_id).startswith("-100"):
                     await asyncio.sleep(3.5)
@@ -51,7 +51,7 @@ class TcpTgBot:
                 try:
                     await self.__bot.send_photo(
                         chat_id=user_id, photo=image,
-                        caption=f"Apartment: {link} \nPrice: {price} {currency} \nPublished at: {date}"
+                        caption=f'Источник<a href="{link}"🔎 \nЦена💵: {price} {currency} \nВремя публикации🕒: {date}'
                     )
                 except Exception as re_err:
                     print(f"Error: Retry sending failed: {re_err}")

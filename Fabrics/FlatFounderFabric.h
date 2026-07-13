@@ -10,5 +10,6 @@ public:
     void createSettings(std::string SettingsPath);
 protected:
     std::unique_ptr<FlatFounder> createClassicFounder(std::string filtersPath);
+    std::unique_ptr<FlatFounder> createForDayFounder(std::string filtersPath);
 };
 

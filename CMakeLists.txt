@@ -9,7 +9,7 @@ if(WIN32)
     add_definitions(-D_UCRT)
 endif()
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS ON)
 
@@ -68,6 +68,8 @@ add_executable(FlatFounder main.cpp
     classes/Converters/KufarForDayResultConverter.h classes/Converters/KufarForDayResultConverter.cpp
     classes/DateUtils/DateUtils.h classes/DateUtils/DateUtils.cpp
     Fabrics/FounderType.h
+    classes/Sites/RequestGeneraters/KufarForDayRequestGenerator.h classes/Sites/RequestGeneraters/KufarForDayRequestGenerator.cpp
+    classes/Sites/RequestGeneraters/RealtForDayRequestGenerator.h classes/Sites/RequestGeneraters/RealtForDayRequestGenerator.cpp
 
 
 

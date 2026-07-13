@@ -4,6 +4,7 @@
 		"ip": "127.0.0.1",
 		"port": 2003,
 		"peripdTimeMin": 5,
-		"dbPath": "FlatDataBase.db"
+		"dbPath": "FlatDataBase.db",
+		"isLong": 0
 	}
 }

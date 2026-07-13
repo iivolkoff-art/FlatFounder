@@ -83,7 +83,14 @@ int main(int argc, char *argv[])
         {
             FlatFounderFabric flatFounderFabric;
             flatFounderFabric.createSettings(std::move(settingsPath));
-            flatFounder = flatFounderFabric.createDefault(FounderType::ClassicFounder, std::move(filtersPath));
+
+            if(!SettingsSingltons::instance().getSettings().isLong){
+                flatFounder = flatFounderFabric.createDefault(FounderType::ShortLetFounder, std::move(filtersPath));
+            }
+            else{
+                flatFounder = flatFounderFabric.createDefault(FounderType::ClassicFounder, std::move(filtersPath));
+            }
+
         }
     }
 

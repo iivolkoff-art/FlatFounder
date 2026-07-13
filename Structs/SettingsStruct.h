@@ -7,4 +7,5 @@ struct SettingsStruct{
     std::string dbPath;
     int port;
     int periodTimeMin;
+    bool isLong;
 };

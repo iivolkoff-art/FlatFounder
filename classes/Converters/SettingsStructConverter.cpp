@@ -21,7 +21,7 @@ SettingsStruct SettingsStructConverter::convert(const std::string& input){
             QJsonObject filterObj = root["SoftSettings"].toObject();
 
             QStringList keys = {
-                "ip", "port", "peripdTimeMin", "dbPath", "name"
+                "ip", "port", "peripdTimeMin", "dbPath", "name", "isLong"
             };
             for (const QString& key : keys) {
                 if (!filterObj.contains(key)) {
@@ -33,6 +33,7 @@ SettingsStruct SettingsStructConverter::convert(const std::string& input){
             settings.dbPath = filterObj["dbPath"].toString().toStdString();
             settings.port = filterObj["port"].toInt();
             settings.periodTimeMin = filterObj["peripdTimeMin"].toInt();
+            settings.isLong = filterObj["isLong"].toBool();
     }else{
         throw std::runtime_error("Error: Incorrect JSON struct in \n" + input);
     }
