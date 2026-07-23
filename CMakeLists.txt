@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.16)
 
 project(FlatFounder LANGUAGES CXX)
 
+set(CMAKE_CXX_FLAGS_RELEASE "-O3 -DNDEBUG")
+
 if(WIN32)
     set(Boost_NO_SYSTEM_PATHS ON)
     set(BOOST_ROOT "C:/msys64/ucrt64")

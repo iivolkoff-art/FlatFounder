@@ -8,6 +8,6 @@ public:
     QUrl generate(const FlatFilters& filter) override;
 
 protected:
-    virtual void addBasicParams(QUrlQuery& query, const FlatFilters& filter);
+    void addBasicParams(QUrlQuery& query, const FlatFilters& filter);
 };
 

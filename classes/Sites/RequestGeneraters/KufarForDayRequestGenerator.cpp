@@ -6,33 +6,33 @@ KufarForDayRequestGenerator::KufarForDayRequestGenerator() {}
 
 QUrl KufarForDayRequestGenerator::generate(const FlatFilters& filter)
 {
-    QUrl url("https://api.kufar.by/booking/auth-bypass/v2/search/geo");
+    QUrl url("https://api.kufar.by/booking/auth-bypass/v2/search/geo?");
     QUrlQuery query;
     switch(filter.rgn){
     case 1: // Brest
         query.addQueryItem("gtsy",  "country-belarus~province-brestskaja_oblast~locality-brest");
         break;
     case 2: // Vitebsk
-        query.addQueryItem("address",  "country-belarus~province-vitebskaja_oblast~locality-vitebsk");
+        query.addQueryItem("gtsy",  "country-belarus~province-vitebskaja_oblast~locality-vitebsk");
         break;
     case 3: //Gomel
-        query.addQueryItem("address",  "country-belarus~province-gomelskaja_oblast~locality-gomel");
+        query.addQueryItem("gtsy",  "country-belarus~province-gomelskaja_oblast~locality-gomel");
         break;
     case 4: // Grodno
-        query.addQueryItem("address",  "country-belarus~province-grodnenskaja_oblast~locality-grodno");
+        query.addQueryItem("gtsy",  "country-belarus~province-grodnenskaja_oblast~locality-grodno");
         break;
     case 6: // Mogilev
-        query.addQueryItem("address",  "country-belarus~province-mogilyovskaja_oblast~locality-mogilyov");
+        query.addQueryItem("gtsy",  "country-belarus~province-mogilyovskaja_oblast~locality-mogilyov");
         break;
     case 7: // Minsk
     default:
-        query.addQueryItem("address",  "country-belarus~province-minsk~locality-minsk");
+        query.addQueryItem("gtsy",  "country-belarus~province-minsk~locality-minsk");
         break;
     }
 
 
     query.addQueryItem("prc", "r:" + QString::number(filter.minPrice * 100) + "," + QString::number(filter.maxPrice * 100));
-
+    query.addQueryItem("cat", "25010");
     query.addQueryItem("bkat",  "v.or:1,1");
     query.addQueryItem("bkbt",  "v.or:1,5,10");
     query.addQueryItem("bkcl", QString::fromStdString(std::format("rn:{},{},1,0", calculateCurrentDays(), calculateCurrentDays() + 1)));
@@ -58,3 +58,5 @@ const int KufarForDayRequestGenerator::calculateCurrentDays(){
 
     return constIntDay + (constDay.daysTo(currentDay));
 }
+
+

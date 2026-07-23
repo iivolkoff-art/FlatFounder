@@ -8,6 +8,7 @@
 #include "Sites/RequestGeneraters/KufarForDayRequestGenerator.h"
 #include "Sites/RequestGeneraters/OnlinerRequestGenerator.h"
 #include "Sites/RequestGeneraters/RealtRequestGenerator.h"
+#include "Sites/RequestGeneraters/RealtForDayRequestGenerator.h"
 
 #include "Converters/FlatFiltersConverter.h"
 #include "Converters/SettingsStructConverter.h"
@@ -23,6 +24,7 @@
 #include "Converters/KufarForDayResultConverter.h"
 #include "Converters/OnlinerResultConverter.h"
 #include "Converters/RealtHTMLResultConverter.h"
+#include "Converters/RealtHTMLForDayResultConvert.h"
 
 #include "DB/IMainSql.h"
 #include "DB/SQLite/MainDBSQLite.h"
@@ -89,7 +91,7 @@ std::unique_ptr<FlatFounder> FlatFounderFabric::createForDayFounder(std::string 
 
     std::unique_ptr<ISites> kufarSites = std::make_unique<Site>(std::make_unique<KufarForDayRequestGenerator>(), defaultClient, std::make_unique<KufarForDayResultConverter>(), mainSQLite);
     //std::unique_ptr<ISites> onlinerSites = std::make_unique<Site>(std::make_unique<OnlinerRequestGenerator>(), defaultClient, std::make_unique<OnlinerResultConverter>(), mainSQLite);
-    std::unique_ptr<ISites> realtSites = std::make_unique<Site>(std::make_unique<RealtRequestGenerator>(), defaultClient, std::make_unique<RealtHTMLResultConverter>(), mainSQLite);
+    std::unique_ptr<ISites> realtSites = std::make_unique<Site>(std::make_unique<RealtForDayRequestGenerator>(), defaultClient, std::make_unique<RealtHTMLForDayResultConvert>(), mainSQLite);
 
     std::vector<std::unique_ptr<ISites>> sites;
     sites.push_back(std::move(kufarSites));
