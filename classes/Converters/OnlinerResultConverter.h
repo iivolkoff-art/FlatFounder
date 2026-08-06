@@ -1,5 +1,5 @@
 #pragma once
-
+#include <QJsonObject>
 #include "Results.h"
 #include "Converters/IConverter.h"
 
@@ -11,5 +11,6 @@ class OnlinerResultConverter : public IConverter<std::vector<Result>, std::strin
 public:
     OnlinerResultConverter();
     std::vector<Result> convert(const std::string& input) override;
+    int getRoomsCount(const QJsonObject& adObject) const;
 };
 

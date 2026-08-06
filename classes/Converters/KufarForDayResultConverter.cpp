@@ -1,5 +1,8 @@
 #include "KufarForDayResultConverter.h"
 #include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonParseError>
 
 KufarForDayResultConverter::KufarForDayResultConverter() {}
 
@@ -34,6 +37,8 @@ std::vector<Result> KufarForDayResultConverter::convert(const std::string& input
         res.currency = "BYN";
         res.image = "";
 
+        res.address = getCorrectCoord(ad["c"].toArray());
+
         vecRes.push_back(std::move(res));
     }
     return vecRes;
@@ -45,7 +50,9 @@ std::string KufarForDayResultConverter::convertedPrice(QJsonObject ad){
 }
 
 
+const std::string KufarForDayResultConverter::getCorrectCoord(const QJsonArray& coords){
+    double lonFromJson = coords[0].toDouble();
+    double latFromJson = coords[1].toDouble();
 
-
-//https://api.kufar.by/booking/auth-bypass/v2/search/geo?bkcl=rn%3A20658%2C20659%2C1%2C0&bku=1%2C1&cat=25010&gtsy=country-belarus~province-minsk~locality-minsk&size=500
-//https://api.kufar.by/booking/auth-bypass/v2/search/geo?address=country-belarus~province-minsk~locality-minsk&prc=r:100,100000&bkat=v.or:1,1&bkbt=v.or:1,5,10&bkcl=rn:20656,20657,1,0&size=15&st=r:0,90&rms=v.or:1,2,3,4
+    return QString("%1, %2").arg(latFromJson, 0, 'f', 6).arg(lonFromJson, 0, 'f', 6).toStdString();
+}

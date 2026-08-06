@@ -10,6 +10,7 @@ public:
     std::vector<Result> convert(const std::string& input) override;
 protected:
     std::string convertedPrice(QJsonObject price);
+    const std::string getCorrectCoord(const QJsonArray& coords);
 };
 
 

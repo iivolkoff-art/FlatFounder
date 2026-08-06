@@ -2,7 +2,6 @@
 #include "DateUtils/DateUtils.h"
 
 #include <QJsonDocument>
-#include <QJsonObject>
 #include <QJsonArray>
 #include <iostream>
 
@@ -41,6 +40,8 @@ std::vector<Result> KufarResultConverter::convert(const std::string& input) {
             res.image = "https://rms.kufar.by/v1/list_thumbs_2x/" + imagesArray[0].toObject()["path"].toString().toStdString();
         }
 
+        addAddress(res, ad);
+        res.roomsCount = getRoomsCount(ad);
         if (!res.link.empty()) {
             vecRes.push_back(std::move(res));
         }
@@ -65,5 +66,35 @@ std::string KufarResultConverter::priceProccesing(std::string price) {
 }
 
 
+void KufarResultConverter::addAddress(Result& res, const QJsonObject& ad) const{
+    QJsonArray accountParams = ad["account_parameters"].toArray();
+    QString addressQs;
+
+    for (const QJsonValue &paramValue : accountParams) {
+        if (paramValue.isObject()) {
+            QJsonObject paramObj = paramValue.toObject();
+
+            if (paramObj["p"].toString() == "address") {
+                addressQs = paramObj["v"].toString();
+                break;
+            }
+        }
+    }
+
+    res.address = std::string(addressQs.toLocal8Bit().constData());
+}
+
+
+int KufarResultConverter::getRoomsCount(const QJsonObject& adObject) const{
+    const QJsonArray adParamsArray = adObject["ad_parameters"].toArray();
+
+    for (const QJsonValue& paramValue : adParamsArray) {
+        const QJsonObject paramObj = paramValue.toObject();
+        if (paramObj["p"].toString() == "rooms") {
+            return paramObj["vl"].toString().toInt();
+        }
+    }
+    return 0;
+}
 
 

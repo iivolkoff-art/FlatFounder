@@ -59,7 +59,7 @@ int main(int argc, char *argv[])
             }
 
             if (vm.count("version")) {
-                std::cout << "0.9.11" << std::endl;
+                std::cout << "0.9.12" << std::endl;
                 return 0;
             }
 

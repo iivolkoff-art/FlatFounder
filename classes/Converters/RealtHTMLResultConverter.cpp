@@ -5,6 +5,7 @@
 #include <QJsonObject>
 #include "DateUtils/DateUtils.h"
 
+
 RealtHTMLResultConverter::RealtHTMLResultConverter() {}
 
 std::vector<Result> RealtHTMLResultConverter::convert(const std::string& input) {
@@ -35,6 +36,10 @@ std::vector<Result> RealtHTMLResultConverter::convert(const std::string& input) 
             if (!imagesArray.isEmpty()) {
                 res.image = imagesArray.at(0).toString().toStdString();
             }
+
+            QString addressQs = obj["address"].toString();
+            res.address = std::string(addressQs.toLocal8Bit().constData());;
+            res.roomsCount = getRoomsCount(obj);
             results.push_back(std::move(res));
         }
     }
@@ -92,5 +97,12 @@ QJsonArray RealtHTMLResultConverter::convertToJsonArray(const QString& jsonStrin
         return doc.array();
     }
     return QJsonArray();
+}
+
+int RealtHTMLResultConverter::getRoomsCount(const QJsonObject& adObject) const{
+    if (adObject.contains("rooms")) {
+        return adObject["rooms"].toInt();
+    }
+    return 0;
 }
 

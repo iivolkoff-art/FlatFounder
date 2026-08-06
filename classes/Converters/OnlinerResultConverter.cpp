@@ -2,7 +2,6 @@
 #include "DateUtils/DateUtils.h"
 
 #include <QJsonDocument>
-#include <QJsonObject>
 #include <QJsonArray>
 #include <iostream>
 
@@ -30,14 +29,32 @@ std::vector<Result> OnlinerResultConverter::convert(const std::string& input) {
 
         res.link = ad["url"].toString().toStdString();
         res.date = DateUtils::dateProcces(std::move(ad["last_time_up"].toString().toStdString()));
+
         res.image = ad["photo"].toString().toStdString();
         res.price = ad["price"].toObject()["converted"].toObject()["BYN"].toObject()["amount"].toString().toStdString();
         res.currency = "BYN";
+
+        QJsonObject location = ad["location"].toObject();
+        QString addressQs = location["address"].toString();
+        res.address = std::string(addressQs.toLocal8Bit().constData());;
+        res.roomsCount = getRoomsCount(ad);
+
         if (!res.link.empty()) {
             vecRes.push_back(std::move(res));
         }
     }
 
     return vecRes;
+}
+
+int OnlinerResultConverter::getRoomsCount(const QJsonObject& adObject) const {
+    const QString rentType = adObject["rent_type"].toString();
+
+    const QString countStr = rentType.section('_', 0, 0);
+
+    bool ok = false;
+    int rooms = countStr.toInt(&ok);
+
+    return ok ? rooms : 0;
 }
 

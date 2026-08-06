@@ -3,7 +3,7 @@
 
 RealtForDayRequestGenerator::RealtForDayRequestGenerator() {}
 
-
+//https://realt.by/rent/flat-for-day/?dateStart=2026-07-27&dateEnd=2026-07-28&countAdult=1
 QUrl RealtForDayRequestGenerator::generate(const FlatFilters& filter)
 {
     QUrlQuery query;
@@ -13,30 +13,35 @@ QUrl RealtForDayRequestGenerator::generate(const FlatFilters& filter)
     QString transactionPath = "";
 
     switch(filter.rgn) {
-    case 1: regionPath = "brest-region/"; break;
-    case 2: regionPath = "vitebsk-region/"; break;
-    case 3: regionPath = "gomel-region/"; break;
-    case 4: regionPath = "grodno-region/"; break;
-    case 6: regionPath = "mogilev-region/"; break;
-    case 7: // Минск
-    default: regionPath = ""; break;
-    }
-
-    switch(filter.transactionType) {
     case 1:
-        transactionPath = "rent/flat-for-long/";
+        regionPath = "brest-region/";
         break;
-    case 2:
-        transactionPath = "sale/flats/";
-        query.addQueryItem("priceMeterType", "all");
+    case 2: regionPath = "vitebsk-region/";
         break;
+    case 3:
+        regionPath = "gomel-region/";
+        break;
+    case 4:
+        regionPath = "grodno-region/";
+        break;
+    case 6:
+        regionPath = "mogilev-region/";
+        break;
+    case 7: // Минск
     default:
-        transactionPath = "rent/flat-for-long/";
+        regionPath = "";
         break;
     }
 
-    QString finalUrlString = basePrefix + regionPath + transactionPath;
-    QUrl url(finalUrlString);
+    basePrefix += regionPath + "rent/flat-for-day/";
+
+    QUrl url(basePrefix);
+
+    addDays(query);
+
+    query.addQueryItem("countAdult", "2");
+
+    addBasicParams(query, filter);
 
     switch(filter.rgn) {
     case 1: // Brest
@@ -64,25 +69,37 @@ QUrl RealtForDayRequestGenerator::generate(const FlatFilters& filter)
         break;
     }
 
-    addBasicParams(query, filter);
 
+    query.addQueryItem("bookingObjects", "1");
+    query.addQueryItem("bookingObjects", "2");
+    query.addQueryItem("bookingObjects", "4");
 
-    switch(filter.currency){
-    case 1:
-        query.addQueryItem("priceType", "933"); // BYN
-        break;
-    case 2:
-        query.addQueryItem("priceType", "840"); //USD
-        break;
-    default:
-        query.addQueryItem("priceType", "933");
-        break;
-    }
+    query.addQueryItem("priceType", "933");
+    // switch(filter.currency){
+    // case 1:
+    //     query.addQueryItem("priceType", "933"); // BYN
+    //     break;
+    // case 2:
+    //     query.addQueryItem("priceType", "840"); //USD
+    //     break;
+    // default:
+    //     query.addQueryItem("priceType", "933");
+    //     break;
+    // }
 
     url.setQuery(query.query(QUrl::FullyEncoded));
 
+    query.addQueryItem("areaFrom", QString::number(filter.minFlatSize));
+    query.addQueryItem("areaTo", QString::number(filter.maxFlatSize));
 
     url.setQuery(query);
     //qDebug() << url;
     return url;
+}
+
+
+void RealtForDayRequestGenerator::addDays(QUrlQuery& urlQuery){
+    QDate currentDay = QDate::currentDate();
+    urlQuery.addQueryItem("dateStart", currentDay.toString("yyyy-MM-dd"));
+    urlQuery.addQueryItem("dateEnd", currentDay.addDays(1).toString("yyyy-MM-dd"));
 }

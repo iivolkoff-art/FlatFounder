@@ -16,6 +16,8 @@ QJsonDocument ResultToJSONConverter::convert(const std::vector<Result>& input){
         jsonObj["date"] = QString::fromStdString(x.date);
         jsonObj["price"] = QString::fromStdString(x.price);
         jsonObj["currency"] = QString::fromStdString(x.currency);
+        jsonObj["address"] = QString::fromLocal8Bit(x.address.c_str());
+        jsonObj["roomsCount"] = QString::number(x.roomsCount);
         jsonArray.append(jsonObj);
     }
 

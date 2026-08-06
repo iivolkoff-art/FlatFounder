@@ -16,6 +16,7 @@ protected:
     QJsonArray parseObjectsFromHtml(const QString& html);
     virtual int findJsonStart(const QString& html);
     int findJsonEnd(const QString& html, int startIndex);
+    int getRoomsCount(const QJsonObject& adObject) const;
 };
 
 

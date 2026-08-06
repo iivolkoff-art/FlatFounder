@@ -106,8 +106,6 @@ void RealtRequestGenerator::addBasicParams(QUrlQuery& query, const FlatFilters& 
     }
 
     query.addQueryItem("sortType", "createdAt");
-    query.addQueryItem("areaTotalFrom", QString::number(filter.minFlatSize));
-    query.addQueryItem("areaTotalTo", QString::number(filter.maxFlatSize));
     query.addQueryItem("priceFrom", QString::number(filter.minPrice));
     query.addQueryItem("priceTo", QString::number(filter.maxPrice));
 }

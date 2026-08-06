@@ -19,14 +19,21 @@ std::vector<Result> RealtHTMLForDayResultConvert::convert(const std::string& inp
             Result res;
 
             res.currency = "BYN";
-            res.price = obj["calculatedPrice"].toInt();
 
-            res.date = DateUtils::dateProcces(std::move(obj["updatedAt"].toString().toStdString()));
+            QString formattedQString = QString::number(obj["calculatedPrice"].toDouble(), 'f', 2);
+            std::string priceStr = formattedQString.toStdString();
+            res.price = priceStr;
+
+            //res.date = DateUtils::dateProcces(std::move(obj["updatedAt"].toString().toStdString()));
             res.link = "https://realt.by/rent-flat-for-day/object/" + std::to_string(obj["code"].toInt());
             QJsonArray imagesArray = obj["images"].toArray();
             if (!imagesArray.isEmpty()) {
                 res.image = imagesArray.at(0).toString().toStdString();
             }
+
+            QString addressQs = obj["address"].toString();
+            res.address = std::string(addressQs.toLocal8Bit().constData());;
+
             results.push_back(std::move(res));
         }
     }
