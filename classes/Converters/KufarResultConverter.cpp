@@ -31,7 +31,7 @@ std::vector<Result> KufarResultConverter::convert(const std::string& input) {
         Result res;
 
         res.link = ad["ad_link"].toString().toStdString();
-        res.date = DateUtils::dateProcces(std::move(ad["list_time"].toString().toStdString()));
+        res.date = DateUtils::dateProcces(std::move(ad["list_time"].toString().toStdString()), 3);
         res.price = priceProccesing(std::move(ad["price_byn"].toString().toStdString()));
         res.currency = "BYN";
 

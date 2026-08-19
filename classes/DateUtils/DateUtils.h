@@ -6,5 +6,5 @@ class DateUtils
 {
 public:
     DateUtils();
-    static std::string dateProcces(std::string date);
+    static std::string dateProcces(std::string date, int hourdsOffset = 0);
 };

@@ -35,7 +35,7 @@ QUrl KufarForDayRequestGenerator::generate(const FlatFilters& filter)
     query.addQueryItem("cat", "25010");
     query.addQueryItem("bkat",  "v.or:1,1");
     query.addQueryItem("bkbt",  "v.or:1,5,10");
-    query.addQueryItem("bkcl", QString::fromStdString(std::format("rn:{},{},1,0", calculateCurrentDays(), calculateCurrentDays() + 1)));
+    query.addQueryItem("bkcl", QString("rn:%1,%2,1,0").arg(calculateCurrentDays()).arg(calculateCurrentDays() + 1));
 
     addBasicParams(query, filter);
 

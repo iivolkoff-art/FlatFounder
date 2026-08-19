@@ -95,11 +95,10 @@ target_link_libraries(FlatFounder PRIVATE
     Qt6::Core
     Qt6::Network
     Boost::program_options
-    iconv
-    sqlite3         # <-- ПРОСТО ПИШЕМ sqlite3 НАПРЯМУЮ ВОТ ТАК
+    sqlite3
     stdc++
 )
 
-# if(WIN32)
-#     target_link_libraries(FlatFounder PRIVATE -static-libstdc++ -static-libgcc)
-# endif()
+if(WIN32)
+    target_link_libraries(FlatFounder PRIVATE iconv)
+endif()

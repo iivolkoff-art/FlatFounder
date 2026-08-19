@@ -9,7 +9,7 @@
 DateUtils::DateUtils() {}
 
 
-std::string DateUtils::dateProcces(std::string date) {
+std::string DateUtils::dateProcces(std::string date, int hourdsOffset) {
     size_t tPos = date.find('T');
     if (tPos == std::string::npos) {
         return "no data";
@@ -22,7 +22,7 @@ std::string DateUtils::dateProcces(std::string date) {
 
     std::string cleanDate = date.substr(0, endPos);
 
-    std::tm tm;
+    std::tm tm = {};
     std::istringstream ss(cleanDate);
     ss >> std::get_time(&tm, "%Y-%m-%dT%H:%M:%S");
     if (ss.fail()) {
@@ -30,7 +30,7 @@ std::string DateUtils::dateProcces(std::string date) {
     }
 
     std::time_t time = std::mktime(&tm);
-    time += 3 * 3600;
+    time += hourdsOffset * 3600;
 
     std::tm* new_tm = std::localtime(&time);
     std::ostringstream oss;

@@ -46,12 +46,15 @@ int main(int argc, char *argv[])
             desc.add_options()
                 ("help,h", "Show all flags")
                 ("version,v", "Version")
-                ("settings,s", po::value<std::string>(), "Settings file path")
-                ("filters,f", po::value<std::string>(), "Filters file path");
+                ("settings,s", po::value<std::string>()->default_value("./SoftSettings.json"), "Settings file path")
+                ("filters,f", po::value<std::string>()->default_value("./FlatFilters.json"), "Filters file path");
 
             po::variables_map vm;
             po::store(po::parse_command_line(argc, argv, desc), vm);
             po::notify(vm);
+
+            settingsPath = vm["settings"].as<std::string>();
+            filtersPath = vm["filters"].as<std::string>();
 
             if (vm.count("help")) {
                 std::cout << desc << "\n";
@@ -59,20 +62,8 @@ int main(int argc, char *argv[])
             }
 
             if (vm.count("version")) {
-                std::cout << "0.9.12" << std::endl;
+                std::cout << "0.9.13" << std::endl;
                 return 0;
-            }
-
-            if (vm.count("settings")) {
-                settingsPath = std::move(vm["settings"].as<std::string>());
-            } else {
-                settingsPath = "./SoftSettings.json";
-            }
-
-            if (vm.count("filters")) {
-                filtersPath = std::move(vm["filters"].as<std::string>());
-            } else {
-                filtersPath = "./FlatFilters.json";
             }
         } catch (const std::exception& e) {
             std::cerr << "Error: " << e.what() << "\n";
