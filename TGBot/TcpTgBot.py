@@ -88,11 +88,11 @@ class TcpTgBot:
                     map_filename = None
 
             caption = (
-                f'<a href="{link}">Источник</a>\n'
-                f'Цена: {price} {currency}\n'
-                f'Время: {date}\n'
-                f'Адрес: {address}\n'
-                f'Комнат: {rooms_count}'
+                f'<a href="{link}">Источник🔎</a>\n'
+                f'Цена💵: {price} {currency}\n'
+                f'Время🕒: {date}\n'
+                f'Адрес📍: {address}\n'
+                f'Комнат🛏️: {rooms_count}'
             )
 
             try:
