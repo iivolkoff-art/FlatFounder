@@ -5,4 +5,5 @@
 class IHttpsClient{
 public:
     virtual std::string getInfo(const QUrl& url) = 0;
+    virtual ~IHttpsClient() = default;
 };

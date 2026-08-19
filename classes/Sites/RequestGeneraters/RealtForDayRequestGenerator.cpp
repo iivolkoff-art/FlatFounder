@@ -1,0 +1,105 @@
+#include "RealtForDayRequestGenerator.h"
+#include <QUrlQuery>
+
+RealtForDayRequestGenerator::RealtForDayRequestGenerator() {}
+
+//https://realt.by/rent/flat-for-day/?dateStart=2026-07-27&dateEnd=2026-07-28&countAdult=1
+QUrl RealtForDayRequestGenerator::generate(const FlatFilters& filter)
+{
+    QUrlQuery query;
+
+    QString basePrefix = "https://realt.by/";
+    QString regionPath = "";
+    QString transactionPath = "";
+
+    switch(filter.rgn) {
+    case 1:
+        regionPath = "brest-region/";
+        break;
+    case 2: regionPath = "vitebsk-region/";
+        break;
+    case 3:
+        regionPath = "gomel-region/";
+        break;
+    case 4:
+        regionPath = "grodno-region/";
+        break;
+    case 6:
+        regionPath = "mogilev-region/";
+        break;
+    case 7: // Минск
+    default:
+        regionPath = "";
+        break;
+    }
+
+    basePrefix += regionPath + "rent/flat-for-day/";
+
+    QUrl url(basePrefix);
+
+    addDays(query);
+
+    query.addQueryItem("countAdult", "2");
+
+    addBasicParams(query, filter);
+
+    switch(filter.rgn) {
+    case 1: // Brest
+        query.addQueryItem("addressV2", "[{\"townUuid\":\"4c8f8db2-7b00-11eb-8943-0cc47adabd66\"}]");
+        break;
+    case 2: // Vitebsk
+        query.addQueryItem("addressV2", "[{\"townUuid\":\"4c9236d8-7b00-11eb-8943-0cc47adabd66\"}]");
+        break;
+    case 3: // Gomel
+        query.addQueryItem("addressV2", "[{\"townUuid\":\"4c95d414-7b00-11eb-8943-0cc47adabd66\"}]");
+        break;
+    case 4: // Grodno
+        query.addQueryItem("addressV2", "[{\"townUuid\":\"4c97eac6-7b00-11eb-8943-0cc47adabd66\"}]");
+        break;
+    case 6: // Mogilev
+        query.addQueryItem("addressV2", "%5B%7B%22metroStationUuid%22%3A%22481c9f9e-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481ca613-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481caca1-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cb2fe-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cb3f0-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cb72e-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cb91d-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cbafb-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cbf4b-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cc223-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cc5e4-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%2282355720-a674-11eb-963d-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481ca4ae-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481ca9de-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481caba5-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cada1-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cae9a-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cb081-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cb170-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cb4e6-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cbc5a-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cc130-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cc404-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cc4f8-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%2251ca0078-a674-11eb-963d-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481ca729-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481ca889-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481caf96-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cb5df-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cb824-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cba0d-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cbd4f-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cbe47-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cc03e-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cc312-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22c27127ef-a674-11eb-963d-0cc47adabd66%22%7D%5D");
+        break;
+    case 7: // Minsk
+    default:
+        if (filter.isNearMetro) {
+            query.addQueryItem("addressV2", "%5B%7B%22metroStationUuid%22%3A%22481c9f9e-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481ca613-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481caca1-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cb2fe-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cb3f0-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cb72e-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cb91d-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cbafb-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cbf4b-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cc223-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cc5e4-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%2282355720-a674-11eb-963d-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481ca4ae-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481ca9de-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481caba5-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cada1-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cae9a-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cb081-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cb170-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cb4e6-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cbc5a-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cc130-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cc404-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cc4f8-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%2251ca0078-a674-11eb-963d-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481ca729-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481ca889-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481caf96-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cb5df-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cb824-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cba0d-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cbd4f-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cbe47-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cc03e-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22481cc312-7b00-11eb-8943-0cc47adabd66%22%7D%2C%7B%22metroStationUuid%22%3A%22c27127ef-a674-11eb-963d-0cc47adabd66%22%7D%5D");
+        } else {
+            query.addQueryItem("addressV2", "[{\"townUuid\":\"4cb07174-7b00-11eb-8943-0cc47adabd66\"}]");
+        }
+        break;
+    }
+
+
+    query.addQueryItem("bookingObjects", "1");
+    query.addQueryItem("bookingObjects", "2");
+    query.addQueryItem("bookingObjects", "4");
+
+    query.addQueryItem("priceType", "933");
+    // switch(filter.currency){
+    // case 1:
+    //     query.addQueryItem("priceType", "933"); // BYN
+    //     break;
+    // case 2:
+    //     query.addQueryItem("priceType", "840"); //USD
+    //     break;
+    // default:
+    //     query.addQueryItem("priceType", "933");
+    //     break;
+    // }
+
+    url.setQuery(query.query(QUrl::FullyEncoded));
+
+    query.addQueryItem("areaFrom", QString::number(filter.minFlatSize));
+    query.addQueryItem("areaTo", QString::number(filter.maxFlatSize));
+
+    url.setQuery(query);
+    //qDebug() << url;
+    return url;
+}
+
+
+void RealtForDayRequestGenerator::addDays(QUrlQuery& urlQuery){
+    QDate currentDay = QDate::currentDate();
+    urlQuery.addQueryItem("dateStart", currentDay.toString("yyyy-MM-dd"));
+    urlQuery.addQueryItem("dateEnd", currentDay.addDays(1).toString("yyyy-MM-dd"));
+}

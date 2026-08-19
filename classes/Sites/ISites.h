@@ -1,11 +1,12 @@
 #pragma once
-#include <string>
 #include <QNetworkAccessManager>
 #include "FlatFilters.h"
+#include <Results.h>
 
 class ISites{
 public:
-    virtual std::string getInfo(const FlatFilters& filter_) = 0;
+    virtual std::vector<Result> getInfo(const FlatFilters& filter_) = 0;
+    virtual ~ISites() = default;
 protected:
     virtual QUrl generateRequest(const FlatFilters& filter_) = 0;
 };

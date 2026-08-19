@@ -6,5 +6,8 @@ class KufarRequestGenerator : public IRequestGenerator
 public:
     KufarRequestGenerator();
     QUrl generate(const FlatFilters& filter) override;
+
+protected:
+    void addBasicParams(QUrlQuery& query, const FlatFilters& filter);
 };
 
